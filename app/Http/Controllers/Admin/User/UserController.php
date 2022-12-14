@@ -479,7 +479,7 @@ class UserController extends Controller
     }
 
     public function display($id) {
-        $country = User::with(['EmployeePersonalDetail', 'EmployeeBankDetail', 'EmployeeEmergencyDetail', 'EmployeeEmploymentDetail', 'EmployeeJobDetail'])->findOrFail($id);
+        $country = User::with(['EmployeePersonalDetail', 'EmployeeBankDetail', 'EmployeeEmergencyDetail', 'EmployeeEmploymentDetail', 'EmployeeJobDetail', 'EmployeePicture'])->findOrFail($id);
         return view('pages.admin.user.display')->with('country',$country)->with([
             "bloodType" => BloodType::lists(),
             "accountType" => AccountType::lists(),
