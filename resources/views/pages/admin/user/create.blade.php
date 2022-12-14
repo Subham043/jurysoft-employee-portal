@@ -102,7 +102,7 @@
                                         <div class="mt-4 mt-md-0">
                                             <div>
                                                 <div class="form-check form-switch form-check-right mb-2">
-                                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckRightDisabled" name="status" {{old('status')==1 ? 'checked' : ''}}>
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckRightDisabled" name="status" {{ empty(old('status')) ? 'checked' : (old('status')==1 ? 'checked' : '')}}>
                                                     <label class="form-check-label" for="flexSwitchCheckRightDisabled">Status</label>
                                                 </div>
                                             </div>
