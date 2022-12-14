@@ -133,4 +133,14 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\EmployeeBankDetail', 'user_id');
     }
+    
+    public function EmployeePicture()
+    {
+        return $this->hasOne('App\Models\EmployeePicture', 'employee_id');
+    }
+    
+    public function EmployeePictureCreated()
+    {
+        return $this->hasOne('App\Models\EmployeePicture', 'user_id');
+    }
 }

@@ -271,6 +271,15 @@
                                 </div>
                             </div>
 
+                            <div id="image-container">
+                                @if($country->EmployeePicture->count()>0)
+                                <div class="pt-3 pb-3 border-bottom border-bottom-dashed mt-4">
+                                    <h6 class="fw-semibold text-uppercase">Profile Picture</h6>
+                                    <img src="{{asset('storage/upload/images/'.$country->EmployeePicture->images)}}" class="mb-3" style="max-width:30%">
+                                </div>
+                                @endif
+                            </div>
+
                             
                         </div>
                     </div>
