@@ -52,11 +52,19 @@ class User extends Authenticatable
         );
     }
     
-    protected function jurysoftId(): Attribute
-    {
-        return new Attribute(
-            get: fn () => 'Jurysoft-'.$this->id,
-        );
+    // protected function jurysoftId(): Attribute
+    // {
+    //     return new Attribute(
+    //         get: fn () => 'Jurysoft-'.$this->id,
+    //     );
+    // }
+
+    public function setJurysoftId(){
+        if(strlen(strval($this->id))>=3){
+            return 'JS-'.$this->id;
+        }else{
+            return 'JS-0'.$this->id;
+        }
     }
 
     public function DepartmentCreated()

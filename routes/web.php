@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Designation\DesignationController;
 use App\Http\Controllers\Admin\Division\DivisionController;
 use App\Http\Controllers\Admin\EmployeeType\EmployeeTypeController;
 use App\Http\Controllers\Admin\ExitMode\ExitModeController;
+use App\Http\Controllers\Admin\CtcFixedItem\CtcFixedItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +94,15 @@ Route::prefix('/')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/edit/{id}', [DivisionController::class, 'edit', 'as' => 'admin.division.edit'])->name('division_edit');
         Route::post('/edit/{id}', [DivisionController::class, 'update', 'as' => 'admin.division.update'])->name('division_update');
         Route::get('/delete/{id}', [DivisionController::class, 'delete', 'as' => 'admin.division.delete'])->name('division_delete');
+    });
+    
+    Route::prefix('/ctc')->group(function () {
+        Route::get('/medical-allowance', [CtcFixedItemController::class, 'medical_allowance_create', 'as' => 'admin.ctc.medical_allowance_create'])->name('medical_allowance_create');
+        Route::post('/medical-allowance-save', [CtcFixedItemController::class, 'medical_allowance_store', 'as' => 'admin.ctc.medical_allowance_store'])->name('medical_allowance_store');
+        Route::get('/conveyance-allowance', [CtcFixedItemController::class, 'conveyance_allowance_create', 'as' => 'admin.ctc.conveyance_allowance_create'])->name('conveyance_allowance_create');
+        Route::post('/conveyance-allowance-save', [CtcFixedItemController::class, 'conveyance_allowance_store', 'as' => 'admin.ctc.conveyance_allowance_store'])->name('conveyance_allowance_store');
+        Route::get('/professional-tax', [CtcFixedItemController::class, 'professional_tax_create', 'as' => 'admin.ctc.professional_tax_create'])->name('professional_tax_create');
+        Route::post('/professional-tax-save', [CtcFixedItemController::class, 'professional_tax_store', 'as' => 'admin.ctc.professional_tax_store'])->name('professional_tax_store');
     });
     
     Route::prefix('/employee-type')->group(function () {

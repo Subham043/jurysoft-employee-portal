@@ -34,11 +34,11 @@
                         <ul class="navbar-nav" id="navbar-nav">
                             <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                             <li class="nav-item">
-                                <a class="nav-link menu-link {{strpos(url()->current(),'department') !== false || strpos(url()->current(),'designation') !== false || strpos(url()->current(),'division') !== false || strpos(url()->current(),'employee-type') !== false|| strpos(url()->current(),'mode-of-exit') !== false ? 'active' : ''}}" href="#sidebarDashboards6" data-bs-toggle="collapse" role="button"
-                                    aria-expanded="{{strpos(url()->current(),'department') !== false || strpos(url()->current(),'designation') !== false || strpos(url()->current(),'division') !== false || strpos(url()->current(),'employee-type') !== false|| strpos(url()->current(),'mode-of-exit') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards6">
+                                <a class="nav-link menu-link {{strpos(url()->current(),'department') !== false || strpos(url()->current(),'designation') !== false || strpos(url()->current(),'division') !== false || strpos(url()->current(),'employee-type') !== false|| strpos(url()->current(),'mode-of-exit') !== false || strpos(url()->current(),'medical-allowance') !== false || strpos(url()->current(),'conveyance-allowance') !== false || strpos(url()->current(),'professional-tax') !== false ? 'active' : ''}}" href="#sidebarDashboards6" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{strpos(url()->current(),'department') !== false || strpos(url()->current(),'designation') !== false || strpos(url()->current(),'division') !== false || strpos(url()->current(),'employee-type') !== false|| strpos(url()->current(),'mode-of-exit') !== false || strpos(url()->current(),'medical-allowance') !== false || strpos(url()->current(),'conveyance-allowance') !== false || strpos(url()->current(),'professional-tax') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards6">
                                     <i class="ri-image-fill"></i> <span data-key="t-dashboards">Master</span>
                                 </a>
-                                <div class="collapse menu-dropdown {{strpos(url()->current(),'department') !== false || strpos(url()->current(),'designation') !== false || strpos(url()->current(),'division') !== false || strpos(url()->current(),'employee-type') !== false || strpos(url()->current(),'mode-of-exit') !== false ? 'show' : ''}}" id="sidebarDashboards6">
+                                <div class="collapse menu-dropdown {{strpos(url()->current(),'department') !== false || strpos(url()->current(),'designation') !== false || strpos(url()->current(),'division') !== false || strpos(url()->current(),'employee-type') !== false || strpos(url()->current(),'mode-of-exit') !== false || strpos(url()->current(),'medical-allowance') !== false || strpos(url()->current(),'conveyance-allowance') !== false || strpos(url()->current(),'professional-tax') !== false ? 'show' : ''}}" id="sidebarDashboards6">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
                                             <a href="{{route('department_view')}}" class="nav-link {{strpos(url()->current(),'department') !== false ? 'active' : ''}}" data-key="t-analytics"> Department </a>
@@ -54,6 +54,15 @@
                                         </li>
                                         <li class="nav-item">
                                             <a href="{{route('exit_mode_view')}}" class="nav-link {{strpos(url()->current(),'mode-of-exit') !== false ? 'active' : ''}}" data-key="t-analytics"> Mode of Exit </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('medical_allowance_create')}}" class="nav-link {{strpos(url()->current(),'medical-allowance') !== false ? 'active' : ''}}" data-key="t-analytics"> Medical Allowance </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('conveyance_allowance_create')}}" class="nav-link {{strpos(url()->current(),'conveyance-allowance') !== false ? 'active' : ''}}" data-key="t-analytics"> Conveyance Allowance </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('professional_tax_create')}}" class="nav-link {{strpos(url()->current(),'professional-tax') !== false ? 'active' : ''}}" data-key="t-analytics"> Professional Tax </a>
                                         </li>
                                     </ul>
                                 </div>
