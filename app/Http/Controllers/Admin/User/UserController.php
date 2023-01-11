@@ -505,6 +505,9 @@ class UserController extends Controller
             "genderType" => GenderType::lists(),
             "relationshipType" => RelationshipType::lists(),
             "workStatusType" => WorkStatusType::lists(),
+            "medical_allowance" => $this->allowance(1),
+            "conveyance_allowance" => $this->allowance(2),
+            "professional_tax" => $this->allowance(3),
         ]);
     }
 

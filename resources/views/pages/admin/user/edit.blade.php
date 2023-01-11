@@ -2290,9 +2290,7 @@ validation
 
   function basic_salary_change(){
       let main_gross_salary = (parseInt(document.getElementById('main_gross_salary').value)) ? parseInt(document.getElementById('main_gross_salary').value) : 0;
-      console.log('main_gross_salary ',main_gross_salary);
       basic_salary_monthly = Math.round((parseInt(main_gross_salary) * (55/100)));
-      console.log('basic_salary_monthly ',basic_salary_monthly);
       basic_salary_yearly = basic_salary_monthly * 12;
       document.getElementById('basic_salary_monthly').innerText = 'Rs. ' + parseInt(basic_salary_monthly)
       document.getElementById('basic_salary_yearly').innerText = 'Rs. ' + parseInt(basic_salary_yearly)
