@@ -28,18 +28,22 @@ class ProfileController extends Controller
 
     public function update(Request $req){
         $rules = array(
-            'name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
+            'first_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
+            'last_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
         );
         $messages = array(
-            'name.required' => 'Please enter the name !',
-            'name.regex' => 'Please enter the valid name !',
+            'first_name.required' => 'Please enter the first name !',
+            'first_name.regex' => 'Please enter the valid first name !',
+            'last_name.required' => 'Please enter the last name !',
+            'last_name.regex' => 'Please enter the valid last name !',
         );
         $validator = Validator::make($req->all(), $rules, $messages);
         if($validator->fails()){
             return response()->json(["form_error"=>$validator->errors()], 400);
         }
         $user = User::findOrFail(Auth::user()->id);
-        $user->name = $req->name;
+        $user->first_name = $req->first_name;
+        $user->last_name = $req->last_name;
         $result = $user->save();
         if($result){
             return response()->json(["url"=>empty($req->refreshUrl)?route('profile'):$req->refreshUrl, "message" => "Profile Updated successfully."], 201);
