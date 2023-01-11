@@ -36,7 +36,7 @@
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),'department') !== false || strpos(url()->current(),'designation') !== false || strpos(url()->current(),'division') !== false || strpos(url()->current(),'employee-type') !== false|| strpos(url()->current(),'mode-of-exit') !== false || strpos(url()->current(),'medical-allowance') !== false || strpos(url()->current(),'conveyance-allowance') !== false || strpos(url()->current(),'professional-tax') !== false ? 'active' : ''}}" href="#sidebarDashboards6" data-bs-toggle="collapse" role="button"
                                     aria-expanded="{{strpos(url()->current(),'department') !== false || strpos(url()->current(),'designation') !== false || strpos(url()->current(),'division') !== false || strpos(url()->current(),'employee-type') !== false|| strpos(url()->current(),'mode-of-exit') !== false || strpos(url()->current(),'medical-allowance') !== false || strpos(url()->current(),'conveyance-allowance') !== false || strpos(url()->current(),'professional-tax') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards6">
-                                    <i class="ri-image-fill"></i> <span data-key="t-dashboards">Master</span>
+                                    <i class="ri-bookmark-3-fill"></i> <span data-key="t-dashboards">Master</span>
                                 </a>
                                 <div class="collapse menu-dropdown {{strpos(url()->current(),'department') !== false || strpos(url()->current(),'designation') !== false || strpos(url()->current(),'division') !== false || strpos(url()->current(),'employee-type') !== false || strpos(url()->current(),'mode-of-exit') !== false || strpos(url()->current(),'medical-allowance') !== false || strpos(url()->current(),'conveyance-allowance') !== false || strpos(url()->current(),'professional-tax') !== false ? 'show' : ''}}" id="sidebarDashboards6">
                                     <ul class="nav nav-sm flex-column">
@@ -70,6 +70,11 @@
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),'employee') !== false ? 'active' : ''}}" href="{{route('subadmin_view')}}">
                                     <i class="ri-admin-fill"></i> <span data-key="t-widgets">Employee</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{strpos(url()->current(),'payslip') !== false ? 'active' : ''}}" href="{{route('payslip_view')}}">
+                                    <i class="ri-file-list-3-fill"></i> <span data-key="t-widgets">Payslip</span>
                                 </a>
                             </li>
                         </ul>

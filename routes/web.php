@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Division\DivisionController;
 use App\Http\Controllers\Admin\EmployeeType\EmployeeTypeController;
 use App\Http\Controllers\Admin\ExitMode\ExitModeController;
 use App\Http\Controllers\Admin\CtcFixedItem\CtcFixedItemController;
+use App\Http\Controllers\Admin\Payslip\PayslipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,6 +126,17 @@ Route::prefix('/')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/edit/{id}', [ExitModeController::class, 'edit', 'as' => 'admin.exit_mode.edit'])->name('exit_mode_edit');
         Route::post('/edit/{id}', [ExitModeController::class, 'update', 'as' => 'admin.exit_mode.update'])->name('exit_mode_update');
         Route::get('/delete/{id}', [ExitModeController::class, 'delete', 'as' => 'admin.exit_mode.delete'])->name('exit_mode_delete');
+    });
+    
+    Route::prefix('/payslip')->group(function () {
+        Route::get('/', [PayslipController::class, 'view', 'as' => 'admin.payslip.view'])->name('payslip_view');
+        Route::get('/view/{id}', [PayslipController::class, 'display', 'as' => 'admin.payslip.display'])->name('payslip_display');
+        Route::get('/create', [PayslipController::class, 'create', 'as' => 'admin.payslip.create'])->name('payslip_create');
+        Route::post('/create', [PayslipController::class, 'store', 'as' => 'admin.payslip.store'])->name('payslip_store');
+        Route::get('/excel', [PayslipController::class, 'excel', 'as' => 'admin.payslip.excel'])->name('payslip_excel');
+        Route::get('/edit/{id}', [PayslipController::class, 'edit', 'as' => 'admin.payslip.edit'])->name('payslip_edit');
+        Route::post('/edit/{id}', [PayslipController::class, 'update', 'as' => 'admin.payslip.update'])->name('payslip_update');
+        Route::get('/delete/{id}', [PayslipController::class, 'delete', 'as' => 'admin.payslip.delete'])->name('payslip_delete');
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');
