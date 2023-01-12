@@ -10,7 +10,7 @@ use App\Support\Types\UserType;
 use App\Models\User;
 use App\Models\Payslip;
 use App\Models\CtcFixedItem;
-use App\Exports\UserExport;
+use App\Exports\PayslipExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 
@@ -167,7 +167,7 @@ class PayslipController extends Controller
     }
 
     public function excel(){
-        return Excel::download(new UserExport, 'user.xlsx');
+        return Excel::download(new PayslipExport, 'payslip.xlsx');
     }
 
     protected function allowance($id){
