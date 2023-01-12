@@ -83,6 +83,9 @@
                                                     <div class="edit">
                                                         <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_display' : 'payslip_display_user', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
+                                                    <div class="edit">
+                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_pdf' : 'payslip_display_user', $item->id)}}" class="btn btn-sm btn-secondary edit-item-btn">Download</a>
+                                                    </div>
                                                     @if(Auth::user() &&  Auth::user()->userType == 1)
                                                     <div class="edit">
                                                         <a href="{{route('payslip_edit', $item->id)}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>

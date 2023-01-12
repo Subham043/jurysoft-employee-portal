@@ -13,7 +13,8 @@ use App\Models\CtcFixedItem;
 use App\Exports\PayslipExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
-use Carbon\Carbon;
+use Pdf;
+use Uuid;
 
 class PayslipController extends Controller
 {
@@ -174,6 +175,18 @@ class PayslipController extends Controller
 
     public function excel(){
         return Excel::download(new PayslipExport, 'payslip.xlsx');
+    }
+    
+    public function pdf($id){
+        $payslip = Payslip::with(['User'])->findOrFail($id);
+        $uuid = Uuid::generate(4)->string;
+
+        $data = [
+            'payslip' => $payslip,
+        ];
+          
+        $pdf = PDF::loadView('pdf.payslip', $data)->setPaper('a4', 'potrait');
+        return $pdf->download($uuid.'.pdf');
     }
 
     protected function allowance($id){
