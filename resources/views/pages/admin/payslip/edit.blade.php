@@ -46,7 +46,7 @@
                                     <div class="col-xxl-4 col-md-4">
                                         <div>
                                             <label for="user_id" class="form-label">Employee</label>
-                                            <select id="user_id" name="user_id"></select>
+                                            <select id="user_id" name="user_id" onchange="user_id_change()"></select>
                                             @error('user_id') 
                                                 <div class="invalid-message">{{ $message }}</div>
                                             @enderror
@@ -64,7 +64,7 @@
                                     <div class="col-xxl-4 col-md-4">
                                         <div>
                                             <label for="total_days_of_month" class="form-label">Total Days Of Month</label>
-                                            <input type="text" class="form-control" disabled readonly name="total_days_of_month" id="total_days_of_month" value="{{$country->total_days_of_month}}">
+                                            <input type="text" class="form-control" disabled readonly name="total_days_of_month" id="total_days_of_month" oninput="main_change()" value="{{$country->total_days_of_month}}">
                                             @error('total_days_of_month') 
                                                 <div class="invalid-message">{{ $message }}</div>
                                             @enderror
@@ -82,7 +82,7 @@
                                     <div class="col-xxl-3 col-md-3">
                                         <div>
                                             <label for="paid_leave_taken" class="form-label">Paid Leave Taken</label>
-                                            <input type="text" class="form-control" name="paid_leave_taken" id="paid_leave_taken" value="{{$country->paid_leave_taken}}">
+                                            <input type="text" class="form-control" name="paid_leave_taken" id="paid_leave_taken" oninput="workdays_change()" value="{{$country->paid_leave_taken}}">
                                             @error('paid_leave_taken') 
                                                 <div class="invalid-message">{{ $message }}</div>
                                             @enderror
@@ -124,7 +124,7 @@
                                     <div class="col-xxl-6 col-md-6">
                                         <div>
                                             <label for="main_gross_salary" class="form-label">Main Gross Salary</label>
-                                            <input type="text" class="form-control" readonly disabled oninput="main_gross_salary_change()" name="main_gross_salary" id="main_gross_salary" value="{{old('main_gross_salary')}}">
+                                            <input type="text" class="form-control" readonly disabled name="main_gross_salary" id="main_gross_salary" value="{{old('main_gross_salary')}}">
                                             @error('main_gross_salary') 
                                                 <div class="invalid-message">{{ $message }}</div>
                                             @enderror
@@ -134,7 +134,7 @@
                                     <div class="col-xxl-6 col-md-6">
                                         <div>
                                             <label for="gross_salary_for_month" class="form-label">Gross Salary For That Month</label>
-                                            <input type="text" class="form-control" readonly disabled oninput="main_gross_salary_change()" name="gross_salary_for_month" id="gross_salary_for_month" value="{{old('gross_salary_for_month')}}">
+                                            <input type="text" class="form-control" readonly disabled name="gross_salary_for_month" id="gross_salary_for_month" value="{{old('gross_salary_for_month')}}">
                                             @error('gross_salary_for_month') 
                                                 <div class="invalid-message">{{ $message }}</div>
                                             @enderror
@@ -286,6 +286,7 @@
 
 @section('javascript')
 <script src="{{ asset('admin/js/pages/choices.min.js') }}"></script>
+<script src="{{ asset('admin/js/pages/axios.min.js') }}"></script>
 
 <script type="text/javascript">
 const errorToast = (message) =>{
@@ -495,26 +496,34 @@ validation
     event.target.submit();
   });
 
-  let total_days_of_month = 0;
-  let worked_days = 0;
+
+  let total_days_of_month = {{$country->total_days_of_month ? $country->total_days_of_month : 0}};
+  let worked_days = {{$country->worked_days ? $country->worked_days : 0}};
+  let working_days_of_month = {{$country->working_days_of_month ? $country->working_days_of_month : 0}};
+  let unpaid_leave_taken = {{$country->unpaid_leave_taken ? $country->unpaid_leave_taken : 0}};
+  let paid_leave_taken = {{$country->paid_leave_taken ? $country->paid_leave_taken : 0}};
   function payslip_month_year_change(){
     let data = document.getElementById('month_year').value;
     const myArray = data.split("-");
     const days = new Date(myArray[0], myArray[1], 0).getDate();
     total_days_of_month = days;
     document.getElementById('total_days_of_month').value = days;
+    main_change()
   }
 
   function workdays_change(){
-    let working_days_of_month = parseInt(document.getElementById('working_days_of_month').value) ? parseInt(document.getElementById('working_days_of_month').value) : 0
-    let unpaid_leave_taken = parseInt(document.getElementById('unpaid_leave_taken').value) ? parseInt(document.getElementById('unpaid_leave_taken').value) : 0
-    worked_days = working_days_of_month - unpaid_leave_taken;
+    working_days_of_month = parseInt(document.getElementById('working_days_of_month').value) ? parseInt(document.getElementById('working_days_of_month').value) : 0
+    unpaid_leave_taken = parseInt(document.getElementById('unpaid_leave_taken').value) ? parseInt(document.getElementById('unpaid_leave_taken').value) : 0
+    paid_leave_taken = parseInt(document.getElementById('paid_leave_taken').value) ? parseInt(document.getElementById('paid_leave_taken').value) : 0
+    worked_days = working_days_of_month - (paid_leave_taken + unpaid_leave_taken);
     document.getElementById('worked_days').value = worked_days;
+    main_change()
   }
 
   let medical_allowance = {{$medical_allowance ? (int)$medical_allowance->amount : 0}};
   let conveyance_allowance = {{$conveyance_allowance ? (int)$conveyance_allowance->amount : 0}};
 
+  let main_gross_salary = 0;
   let basic_salary_monthly = 0;
   let basic_salary_yearly = 0;
   let hra_monthly = 0;
@@ -539,8 +548,10 @@ validation
   let esi_employer_yearly = 0;
   let ctc_monthly = 0;
   let ctc_yearly = 0;
+  let gross_salary_for_month = 0;
 
-  function main_gross_salary_change(){
+  function main_change(){
+    gross_salary_for_month_change()
     basic_salary_change()
     hra_change()
     special_allowance_change()
@@ -555,33 +566,57 @@ validation
     ctc_change()
   }
 
+@if(old('total_days_of_month') || old('worked_days') || old('working_days_of_month') || old('unpaid_leave_taken') || old('paid_leave_taken'))
+@endif
+user_id_change()
+
+async function user_id_change(){
+    try {
+        var formData = new FormData();
+        formData.append('user_id',document.getElementById('user_id').value)
+        const response = await axios.post('{{route('subadmin_json')}}', formData)
+        document.getElementById('main_gross_salary').value = response.data.employee_main_gross_salary
+        main_gross_salary = response.data.employee_main_gross_salary
+        main_change()
+    }catch (error){
+        if(error?.response?.data?.form_error?.user_id){
+            errorToast(error?.response?.data?.form_error?.user_id[0])
+        }
+        if(error?.response?.data?.message){
+            errorToast(error?.response?.data?.message)
+        }
+        console.log(error)
+    }
+}
+
+function gross_salary_for_month_change(){
+    gross_salary_for_month = Math.round(main_gross_salary - ((main_gross_salary/working_days_of_month)*unpaid_leave_taken));
+    document.getElementById('gross_salary_for_month').value = gross_salary_for_month;
+}
+
   function basic_salary_change(){
-      let main_gross_salary = (parseInt(document.getElementById('main_gross_salary').value)) ? parseInt(document.getElementById('main_gross_salary').value) : 0;
-      basic_salary_monthly = Math.round((parseInt(main_gross_salary) * (55/100)));
+      basic_salary_monthly = Math.round((parseInt(gross_salary_for_month) * (55/100)));
       basic_salary_yearly = basic_salary_monthly * 12;
       document.getElementById('basic_salary_monthly').innerText = 'Rs. ' + parseInt(basic_salary_monthly)
       document.getElementById('basic_salary_yearly').innerText = 'Rs. ' + parseInt(basic_salary_yearly)
   }
   
   function hra_change(){
-      let main_gross_salary = (parseInt(document.getElementById('main_gross_salary').value)) ? parseInt(document.getElementById('main_gross_salary').value) : 0;
-      hra_monthly = Math.round((parseInt(main_gross_salary) * (20/100)));
+      hra_monthly = Math.round((parseInt(gross_salary_for_month) * (20/100)));
       hra_yearly = hra_monthly * 12;
       document.getElementById('hra_monthly').innerText = 'Rs. ' + parseInt(hra_monthly)
       document.getElementById('hra_yearly').innerText = 'Rs. ' + parseInt(hra_yearly)
   }
   
   function special_allowance_change(){
-      let main_gross_salary = (parseInt(document.getElementById('main_gross_salary').value)) ? parseInt(document.getElementById('main_gross_salary').value) : 0;
-      special_allowance_monthly = Math.round(Math.max((parseInt(main_gross_salary) - (basic_salary_monthly + hra_monthly + medical_allowance + conveyance_allowance)), 0));
+      special_allowance_monthly = Math.round(Math.max((parseInt(gross_salary_for_month) - (basic_salary_monthly + hra_monthly + medical_allowance + conveyance_allowance)), 0));
       special_allowance_yearly = special_allowance_monthly * 12;
       document.getElementById('special_allowance_monthly').innerText = 'Rs. ' + parseInt(special_allowance_monthly)
       document.getElementById('special_allowance_yearly').innerText = 'Rs. ' + parseInt(special_allowance_yearly)
   }
   
   function total_gross_change(){
-      let main_gross_salary = (parseInt(document.getElementById('main_gross_salary').value)) ? parseInt(document.getElementById('main_gross_salary').value) : 0;
-      total_gross_monthly = Math.round(parseInt(main_gross_salary));
+      total_gross_monthly = Math.round(parseInt(gross_salary_for_month));
       total_gross_yearly = total_gross_monthly * 12;
       document.getElementById('total_gross_monthly').innerText = 'Rs. ' + parseInt(total_gross_monthly)
       document.getElementById('total_gross_yearly').innerText = 'Rs. ' + parseInt(total_gross_yearly)
@@ -595,7 +630,6 @@ validation
   }
 
   function esi_employee_change(){
-      let main_gross_salary = (parseInt(document.getElementById('main_gross_salary').value)) ? parseInt(document.getElementById('main_gross_salary').value) : 0;
       esi_employee_monthly = Math.round(parseInt(main_gross_salary) < 21000 ? parseInt(main_gross_salary) * (0.75/100) : 0);
       esi_employee_yearly = esi_employee_monthly * 12;
       document.getElementById('esi_employee_monthly').innerText = 'Rs. ' + parseInt(esi_employee_monthly)
@@ -603,7 +637,6 @@ validation
   }
   
   function professional_tax_change(){
-      let main_gross_salary = (parseInt(document.getElementById('main_gross_salary').value)) ? parseInt(document.getElementById('main_gross_salary').value) : 0;
       professional_tax_monthly = Math.round(parseInt(main_gross_salary) >= 15000 ? {{$professional_tax ? (int)$professional_tax->amount : 0}} : 0);
       professional_tax_yearly = professional_tax_monthly * 12;
       document.getElementById('professional_tax_monthly').innerText = 'Rs. ' + parseInt(professional_tax_monthly)
@@ -618,8 +651,7 @@ validation
   }
   
   function net_salary_change(){
-      let main_gross_salary = (parseInt(document.getElementById('main_gross_salary').value)) ? parseInt(document.getElementById('main_gross_salary').value) : 0;
-      net_salary_monthly = Math.round(parseInt(main_gross_salary) - deduction_monthly);
+      net_salary_monthly = Math.round(parseInt(gross_salary_for_month) - deduction_monthly);
       net_salary_yearly = net_salary_monthly * 12;
       document.getElementById('net_salary_monthly').innerText = 'Rs. ' + parseInt(net_salary_monthly)
       document.getElementById('net_salary_yearly').innerText = 'Rs. ' + parseInt(net_salary_yearly)
@@ -633,7 +665,6 @@ validation
   }
 
   function esi_employer_change(){
-      let main_gross_salary = (parseInt(document.getElementById('main_gross_salary').value)) ? parseInt(document.getElementById('main_gross_salary').value) : 0;
       esi_employer_monthly = Math.round(parseInt(main_gross_salary) < 21000 ? parseInt(main_gross_salary) * (3.25/100) : 0);
       esi_employer_yearly = esi_employer_monthly * 12;
       document.getElementById('esi_employer_monthly').innerText = 'Rs. ' + parseInt(esi_employer_monthly)
@@ -641,12 +672,12 @@ validation
   }
   
   function ctc_change(){
-      let main_gross_salary = (parseInt(document.getElementById('main_gross_salary').value)) ? parseInt(document.getElementById('main_gross_salary').value) : 0;
-      ctc_monthly = Math.round(parseInt(main_gross_salary) + (pf_employer_monthly + esi_employer_monthly));
+      ctc_monthly = Math.round(parseInt(gross_salary_for_month) + (pf_employer_monthly + esi_employer_monthly));
       ctc_yearly = ctc_monthly * 12;
       document.getElementById('ctc_monthly').innerText = 'Rs. ' + parseInt(ctc_monthly)
       document.getElementById('ctc_yearly').innerText = 'Rs. ' + parseInt(ctc_yearly)
   }
+
 </script>
 
 @stop

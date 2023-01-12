@@ -38,7 +38,7 @@ class PayslipController extends Controller
     public function store(Request $req) {
         $rules = [
             'user_id' => ['required','regex:/^[0-9]*$/'],
-            'month_year' => ['required','regex:/^[0-9\-]*$/'],
+            'month_year' => ['required','regex:/^[0-9\-]*$/','unique:payslips'],
             'total_days_of_month' => ['required','regex:/^[0-9]*$/'],
             'working_days_of_month' => ['required','regex:/^[0-9]*$/'],
             'paid_leave_taken' => ['required','regex:/^[0-9]*$/'],
@@ -95,7 +95,7 @@ class PayslipController extends Controller
         $user = Payslip::with(['User'])->findOrFail($id);
         $rules = [
             'user_id' => ['required','regex:/^[0-9]*$/'],
-            'month_year' => ['required','regex:/^[0-9\-]*$/'],
+            'month_year' => ['required','regex:/^[0-9\-]*$/','unique:payslips,month_year,'.$id],
             'total_days_of_month' => ['required','regex:/^[0-9]*$/'],
             'working_days_of_month' => ['required','regex:/^[0-9]*$/'],
             'paid_leave_taken' => ['required','regex:/^[0-9]*$/'],

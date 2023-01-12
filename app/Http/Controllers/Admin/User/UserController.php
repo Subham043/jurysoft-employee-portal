@@ -388,6 +388,9 @@ class UserController extends Controller
         if($user->email!==$req->email){
             $rules['email'] = ['required','email','unique:users'];
         }
+        if($user->jurysoft_id!==$req->jurysoft_id){
+            $rules['jurysoft_id'] = ['required','regex:/^[a-zA-Z0-9\-]*$/','unique:users'];
+        }
         if(!empty($req->phone) && $user->phone!==$req->phone){
             $rules['phone'] = ['required','regex:/^[0-9]*$/','unique:users'];
         }
@@ -513,6 +516,29 @@ class UserController extends Controller
 
     public function excel(){
         return Excel::download(new UserExport, 'user.xlsx');
+    }
+
+    public function json(Request $req) {
+        $rules = [
+            'user_id' => ['required','regex:/^[0-9]*$/'],
+        ];
+        $messages = [
+            'user_id.required' => 'Please enter the employee id !',
+            'user_id.regex' => 'Please enter the valid employee id !',
+        ];
+        $validator = Validator::make($req->all(), $rules, $messages);
+        if($validator->fails()){
+            return response()->json(["form_error"=>$validator->errors()], 400);
+        }
+
+        try {
+            //code...
+            $user = User::findOrFail($req->user_id);
+            return response()->json(["employee_main_gross_salary"=>(int)$user->main_gross_salary], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json(["message"=>"employee not found"], 400);
+        }
     }
 
     protected function allowance($id){

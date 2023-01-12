@@ -2292,6 +2292,8 @@ validation
     ctc_change()
   }
 
+  main_gross_salary_change()
+
   function basic_salary_change(){
       let main_gross_salary = (parseInt(document.getElementById('main_gross_salary').value)) ? parseInt(document.getElementById('main_gross_salary').value) : 0;
       basic_salary_monthly = Math.round((parseInt(main_gross_salary) * (55/100)));
