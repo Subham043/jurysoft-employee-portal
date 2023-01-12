@@ -41,12 +41,7 @@ Route::middleware(['guest'])->group(function () {
 
 });
 
-Route::prefix('/')->middleware(['auth', 'admin'])->group(function () {
-    Route::prefix('/profile')->group(function () {
-        Route::get('/', [ProfileController::class, 'index', 'as' => 'admin.profile'])->name('profile');
-        Route::post('/update', [ProfileController::class, 'update', 'as' => 'admin.profile_update'])->name('profile_update');
-        Route::post('/profile-password-update', [ProfileController::class, 'profile_password', 'as' => 'admin.profile_password'])->name('profile_password_update');
-    });
+Route::prefix('/')->middleware(['auth', 'admin', 'blocked'])->group(function () {
 
     Route::prefix('/employee')->group(function () {
         Route::get('/', [UserController::class, 'view', 'as' => 'admin.subadmin.view'])->name('subadmin_view');
@@ -138,6 +133,15 @@ Route::prefix('/')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/edit/{id}', [PayslipController::class, 'edit', 'as' => 'admin.payslip.edit'])->name('payslip_edit');
         Route::post('/edit/{id}', [PayslipController::class, 'update', 'as' => 'admin.payslip.update'])->name('payslip_update');
         Route::get('/delete/{id}', [PayslipController::class, 'delete', 'as' => 'admin.payslip.delete'])->name('payslip_delete');
+    });
+
+});
+
+Route::prefix('/')->middleware(['auth', 'blocked'])->group(function () {
+    Route::prefix('/profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'index', 'as' => 'admin.profile'])->name('profile');
+        Route::post('/update', [ProfileController::class, 'update', 'as' => 'admin.profile_update'])->name('profile_update');
+        Route::post('/profile-password-update', [ProfileController::class, 'profile_password', 'as' => 'admin.profile_password'])->name('profile_password_update');
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');

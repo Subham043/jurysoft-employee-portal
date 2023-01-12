@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Auth;
 
-class IsAdmin
+class IsBlocked
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,10 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() &&  Auth::user()->userType == 1) {
+        if (Auth::user() &&  Auth::user()->status == 1) {
             return $next($request);
         }
-
-        return redirect(route('dashboard'))->with('error_status','You do not have admin access');
+        Auth::logout();
+        return redirect(route('login'))->with('error_status','You have been blocked by admin');
     }
 }
