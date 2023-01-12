@@ -13,6 +13,7 @@ use App\Models\CtcFixedItem;
 use App\Exports\PayslipExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class PayslipController extends Controller
 {
@@ -144,12 +145,17 @@ class PayslipController extends Controller
 
     public function view(Request $request) {
         if ($request->has('search')) {
-            $search = $request->input('search');
+            $search = trim($request->input('search'));
             $country = Payslip::with(['User'])->where(function ($query) use ($search) {
-                $query->where('first_name', 'like', '%' . $search . '%')
-                      ->orWhere('last_name', 'like', '%' . $search . '%')
-                      ->orWhere('email', 'like', '%' . $search . '%')
-                      ->orWhere('phone', 'like', '%' . $search . '%');
+                $query->where('total_days_of_month', 'like', '%' . $search . '%')
+                      ->orWhere('worked_days', 'like', '%' . $search . '%')
+                      ->orWhere('month_year', 'like', '%' . $search . '%');
+            })->orWhereHas('User', function($q)  use ($search){
+                $q->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('phone', 'like', '%' . $search . '%')
+                ->orWhere('jurysoft_id', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
             })->paginate(10);
         }else{
             $country = Payslip::with(['User'])->orderBy('id', 'DESC')->paginate(10);
@@ -186,10 +192,15 @@ class PayslipController extends Controller
         if ($request->has('search')) {
             $search = $request->input('search');
             $country = Payslip::with(['User'])->where('user_id', Auth::user()->id)->where(function ($query) use ($search) {
-                $query->where('first_name', 'like', '%' . $search . '%')
-                      ->orWhere('last_name', 'like', '%' . $search . '%')
-                      ->orWhere('email', 'like', '%' . $search . '%')
-                      ->orWhere('phone', 'like', '%' . $search . '%');
+                $query->where('total_days_of_month', 'like', '%' . $search . '%')
+                      ->orWhere('worked_days', 'like', '%' . $search . '%')
+                      ->orWhere('month_year', 'like', '%' . $search . '%');
+            })->orWhereHas('User', function($q)  use ($search){
+                $q->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('phone', 'like', '%' . $search . '%')
+                ->orWhere('jurysoft_id', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
             })->paginate(10);
         }else{
             $country = Payslip::with(['User'])->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->paginate(10);
