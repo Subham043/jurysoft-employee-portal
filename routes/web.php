@@ -132,6 +132,7 @@ Route::prefix('/')->middleware(['auth', 'admin', 'blocked'])->group(function () 
         Route::get('/create', [PayslipController::class, 'create', 'as' => 'admin.payslip.create'])->name('payslip_create');
         Route::post('/create', [PayslipController::class, 'store', 'as' => 'admin.payslip.store'])->name('payslip_store');
         Route::get('/excel', [PayslipController::class, 'excel', 'as' => 'admin.payslip.excel'])->name('payslip_excel');
+        Route::get('/excel-downloads', [PayslipController::class, 'excel_download', 'as' => 'admin.payslip.excel_download'])->name('payslip_excel_download');
         Route::get('/edit/{id}', [PayslipController::class, 'edit', 'as' => 'admin.payslip.edit'])->name('payslip_edit');
         Route::post('/edit/{id}', [PayslipController::class, 'update', 'as' => 'admin.payslip.update'])->name('payslip_update');
         Route::get('/delete/{id}', [PayslipController::class, 'delete', 'as' => 'admin.payslip.delete'])->name('payslip_delete');

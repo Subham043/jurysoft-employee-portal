@@ -12,6 +12,7 @@ use App\Models\Payslip;
 use App\Models\PayslipDownload;
 use App\Models\CtcFixedItem;
 use App\Exports\PayslipExport;
+use App\Exports\PayslipDownloadExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Pdf;
@@ -290,6 +291,10 @@ class PayslipController extends Controller
             $country = PayslipDownload::with(['User', 'Payslip'])->orderBy('id', 'DESC')->paginate(10);
         }
         return view('pages.admin.payslip.download_list')->with('country', $country);
+    }
+
+    public function excel_download(){
+        return Excel::download(new PayslipDownloadExport, 'payslip_downloads.xlsx');
     }
 
 }
