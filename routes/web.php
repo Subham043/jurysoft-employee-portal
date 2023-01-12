@@ -145,11 +145,11 @@ Route::prefix('/')->middleware(['auth', 'blocked'])->group(function () {
     });
 
     Route::prefix('/payslip-detail')->group(function () {
-        Route::get('/', [PayslipController::class, 'view_user', 'as' => 'admin.payslip.view_user'])->name('payslip_view');
-        Route::get('/view/{id}', [PayslipController::class, 'display_user', 'as' => 'admin.payslip.display_user'])->name('payslip_display');
+        Route::get('/', [PayslipController::class, 'view_user', 'as' => 'admin.payslip.view_user'])->name('payslip_view_user');
+        Route::get('/view/{id}', [PayslipController::class, 'display_user', 'as' => 'admin.payslip.display_user'])->name('payslip_display_user');
     });
 
-    Route::get('/employee-detail', [UserController::class, 'detail', 'as' => 'admin.subadmin.detail'])->name('subadmin_view');
+    Route::get('/employee-detail', [UserController::class, 'detail', 'as' => 'admin.subadmin.detail'])->name('subadmin_detail');
 
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');
     Route::get('/logout', [LogoutController::class, 'logout', 'as' => 'admin.logout'])->name('logout');

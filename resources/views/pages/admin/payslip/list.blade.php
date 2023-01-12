@@ -44,7 +44,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm">
-                                    <form  method="get" action="{{route('payslip_view')}}">
+                                    <form  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_view' : 'payslip_view_user')}}">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
                                                 <input type="text" name="search" class="form-control search" placeholder="Search..." value="@if(app('request')->has('search')) {{app('request')->input('search')}} @endif">
@@ -81,7 +81,7 @@
                                             <td>
                                                 <div class="d-flex gap-2">
                                                     <div class="edit">
-                                                        <a href="{{route('payslip_display', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
+                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_display' : 'payslip_display_user', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
                                                     @if(Auth::user() &&  Auth::user()->userType == 1)
                                                     <div class="edit">
