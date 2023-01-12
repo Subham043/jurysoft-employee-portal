@@ -144,6 +144,13 @@ Route::prefix('/')->middleware(['auth', 'blocked'])->group(function () {
         Route::post('/profile-password-update', [ProfileController::class, 'profile_password', 'as' => 'admin.profile_password'])->name('profile_password_update');
     });
 
+    Route::prefix('/payslip-detail')->group(function () {
+        Route::get('/', [PayslipController::class, 'view_user', 'as' => 'admin.payslip.view_user'])->name('payslip_view');
+        Route::get('/view/{id}', [PayslipController::class, 'display_user', 'as' => 'admin.payslip.display_user'])->name('payslip_display');
+    });
+
+    Route::get('/employee-detail', [UserController::class, 'detail', 'as' => 'admin.subadmin.detail'])->name('subadmin_view');
+
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');
     Route::get('/logout', [LogoutController::class, 'logout', 'as' => 'admin.logout'])->name('logout');
 });

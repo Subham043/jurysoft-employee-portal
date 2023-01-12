@@ -38,7 +38,7 @@ class PayslipController extends Controller
     public function store(Request $req) {
         $rules = [
             'user_id' => ['required','regex:/^[0-9]*$/'],
-            'month_year' => ['required','regex:/^[0-9\-]*$/','unique:payslips'],
+            'month_year' => ['required','regex:/^[0-9\-]*$/'],
             'total_days_of_month' => ['required','regex:/^[0-9]*$/'],
             'working_days_of_month' => ['required','regex:/^[0-9]*$/'],
             'paid_leave_taken' => ['required','regex:/^[0-9]*$/'],
@@ -95,7 +95,7 @@ class PayslipController extends Controller
         $user = Payslip::with(['User'])->findOrFail($id);
         $rules = [
             'user_id' => ['required','regex:/^[0-9]*$/'],
-            'month_year' => ['required','regex:/^[0-9\-]*$/','unique:payslips,month_year,'.$id],
+            'month_year' => ['required','regex:/^[0-9\-]*$/'],
             'total_days_of_month' => ['required','regex:/^[0-9]*$/'],
             'working_days_of_month' => ['required','regex:/^[0-9]*$/'],
             'paid_leave_taken' => ['required','regex:/^[0-9]*$/'],
@@ -180,6 +180,30 @@ class PayslipController extends Controller
         }
 
         return $ctcFixedItem;
+    }
+
+    public function view_user(Request $request) {
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $country = Payslip::with(['User'])->where('user_id', Auth::user()->id)->where(function ($query) use ($search) {
+                $query->where('first_name', 'like', '%' . $search . '%')
+                      ->orWhere('last_name', 'like', '%' . $search . '%')
+                      ->orWhere('email', 'like', '%' . $search . '%')
+                      ->orWhere('phone', 'like', '%' . $search . '%');
+            })->paginate(10);
+        }else{
+            $country = Payslip::with(['User'])->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->paginate(10);
+        }
+        return view('pages.admin.payslip.list')->with('country', $country);
+    }
+
+    public function display_user($id) {
+        $country = Payslip::with(['User'])->where('user_id', Auth::user()->id)->findOrFail($id);
+        return view('pages.admin.payslip.display')->with('country',$country)->with([
+            "medical_allowance" => $this->allowance(1),
+            "conveyance_allowance" => $this->allowance(2),
+            "professional_tax" => $this->allowance(3),
+        ]);
     }
 
 }

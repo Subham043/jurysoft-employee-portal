@@ -37,8 +37,10 @@
                             <div class="row g-4 mb-3">
                                 <div class="col-sm-auto">
                                     <div>
+                                        @if(Auth::user() &&  Auth::user()->userType == 1)
                                         <a href={{route('payslip_create')}} type="button" class="btn btn-success add-btn" style="background:green;border-color:green;" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
                                         <a href={{route('payslip_excel')}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-sm">
@@ -81,12 +83,14 @@
                                                     <div class="edit">
                                                         <a href="{{route('payslip_display', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
+                                                    @if(Auth::user() &&  Auth::user()->userType == 1)
                                                     <div class="edit">
                                                         <a href="{{route('payslip_edit', $item->id)}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
                                                     </div>
                                                     <div class="remove">
                                                         <button class="btn btn-sm btn-danger remove-item-btn" style="background:red" onclick="deleteHandler('{{route('payslip_delete', $item->id)}}')">Delete</button>
                                                     </div>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>

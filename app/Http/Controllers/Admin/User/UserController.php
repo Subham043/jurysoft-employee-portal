@@ -541,6 +541,20 @@ class UserController extends Controller
         }
     }
 
+    public function detail() {
+        $country = User::with(['EmployeePersonalDetail', 'EmployeeBankDetail', 'EmployeeEmergencyDetail', 'EmployeeEmploymentDetail', 'EmployeeJobDetail', 'EmployeePicture'])->findOrFail(Auth::user()->id);
+        return view('pages.admin.user.display')->with('country',$country)->with([
+            "bloodType" => BloodType::lists(),
+            "accountType" => AccountType::lists(),
+            "genderType" => GenderType::lists(),
+            "relationshipType" => RelationshipType::lists(),
+            "workStatusType" => WorkStatusType::lists(),
+            "medical_allowance" => $this->allowance(1),
+            "conveyance_allowance" => $this->allowance(2),
+            "professional_tax" => $this->allowance(3),
+        ]);
+    }
+
     protected function allowance($id){
         try {
             //code...

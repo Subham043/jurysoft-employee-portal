@@ -33,6 +33,7 @@
                         </div>
                         <ul class="navbar-nav" id="navbar-nav">
                             <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+                            @if(Auth::user() &&  Auth::user()->userType == 1)
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),'department') !== false || strpos(url()->current(),'designation') !== false || strpos(url()->current(),'division') !== false || strpos(url()->current(),'employee-type') !== false|| strpos(url()->current(),'mode-of-exit') !== false || strpos(url()->current(),'medical-allowance') !== false || strpos(url()->current(),'conveyance-allowance') !== false || strpos(url()->current(),'professional-tax') !== false ? 'active' : ''}}" href="#sidebarDashboards6" data-bs-toggle="collapse" role="button"
                                     aria-expanded="{{strpos(url()->current(),'department') !== false || strpos(url()->current(),'designation') !== false || strpos(url()->current(),'division') !== false || strpos(url()->current(),'employee-type') !== false|| strpos(url()->current(),'mode-of-exit') !== false || strpos(url()->current(),'medical-allowance') !== false || strpos(url()->current(),'conveyance-allowance') !== false || strpos(url()->current(),'professional-tax') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards6">
@@ -67,6 +68,7 @@
                                     </ul>
                                 </div>
                             </li> <!-- end Dashboard Menu -->
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),'employee') !== false ? 'active' : ''}}" href="{{route('subadmin_view')}}">
                                     <i class="ri-admin-fill"></i> <span data-key="t-widgets">Employee</span>

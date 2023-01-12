@@ -36,12 +36,14 @@
                                     <a href="{{url()->previous()}}" type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-arrow-go-back-line align-bottom me-1"></i> Go Back</a>
                                 </div>
                             </div>
+                            @if(Auth::user() &&  Auth::user()->userType == 1)
                             <div class="col-sm">
                                 <div class="d-flex justify-content-sm-end">
                                     <a href="{{route('payslip_edit', $country->id)}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"><i class="ri-edit-line align-bottom me-1"></i> Edit</a>
                                     <button onclick="deleteHandler('{{route('payslip_delete', $country->id)}}')" type="button" class="btn btn-danger add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Delete</button>
                                 </div>
                             </div>
+                            @endif
                         </div>
                         <div class="text-muted">
                             <div class="pt-3 pb-3 mt-4">
@@ -225,6 +227,7 @@
                                                     <td class="customer_name" id="net_salary_monthly">0</td>
                                                     <td class="customer_name" id="net_salary_yearly">0</td>
                                                 </tr>
+                                                @if(Auth::user() &&  Auth::user()->userType == 1)
                                                 <tr>
                                                     <td class="customer_name">Employer PF Contribution (Without Admin Charges)</td>
                                                     <td class="customer_name"></td>
@@ -239,6 +242,7 @@
                                                     <td class="customer_name" id="esi_employer_monthly">0</td>
                                                     <td class="customer_name" id="esi_employer_yearly">0</td>
                                                 </tr>
+                                                @endif
                                                 <tr class="table-secondary">
                                                     <th class="customer_name">CTC = Gross Salary + (Employer PF+ESI))</th>
                                                     <td class="customer_name"></td>
@@ -433,15 +437,19 @@ function gross_salary_for_month_change(){
   function pf_employer_change(){
       pf_employer_monthly = Math.round(Math.min(basic_salary_monthly, 15000) * (12/100));
       pf_employer_yearly = pf_employer_monthly * 12;
+      @if(Auth::user() &&  Auth::user()->userType == 1)
       document.getElementById('pf_employer_monthly').innerText = 'Rs. ' + parseInt(pf_employer_monthly)
       document.getElementById('pf_employer_yearly').innerText = 'Rs. ' + parseInt(pf_employer_yearly)
+      @endif
   }
 
   function esi_employer_change(){
       esi_employer_monthly = Math.round(parseInt(main_gross_salary) < 21000 ? parseInt(main_gross_salary) * (3.25/100) : 0);
       esi_employer_yearly = esi_employer_monthly * 12;
+      @if(Auth::user() &&  Auth::user()->userType == 1)
       document.getElementById('esi_employer_monthly').innerText = 'Rs. ' + parseInt(esi_employer_monthly)
       document.getElementById('esi_employer_yearly').innerText = 'Rs. ' + parseInt(esi_employer_yearly)
+      @endif
   }
   
   function ctc_change(){
