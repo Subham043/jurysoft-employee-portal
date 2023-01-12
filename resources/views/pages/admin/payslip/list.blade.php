@@ -84,7 +84,7 @@
                                                         <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_display' : 'payslip_display_user', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_pdf' : 'payslip_display_user', $item->id)}}" class="btn btn-sm btn-secondary edit-item-btn">Download</a>
+                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_pdf' : 'payslip_download_request_user_get', $item->id)}}" class="btn btn-sm btn-secondary edit-item-btn">Download</a>
                                                     </div>
                                                     @if(Auth::user() &&  Auth::user()->userType == 1)
                                                     <div class="edit">

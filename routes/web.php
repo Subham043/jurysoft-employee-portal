@@ -148,6 +148,9 @@ Route::prefix('/')->middleware(['auth', 'blocked'])->group(function () {
     Route::prefix('/payslip-detail')->group(function () {
         Route::get('/', [PayslipController::class, 'view_user', 'as' => 'admin.payslip.view_user'])->name('payslip_view_user');
         Route::get('/view/{id}', [PayslipController::class, 'display_user', 'as' => 'admin.payslip.display_user'])->name('payslip_display_user');
+        Route::get('/download-request/{id}', [PayslipController::class, 'download_request_user_get', 'as' => 'admin.payslip.download_request_user_get'])->name('payslip_download_request_user_get');
+        Route::post('/download-request/{id}', [PayslipController::class, 'download_request_user_post', 'as' => 'admin.payslip.download_request_user_post'])->name('payslip_download_request_user_post');
+        Route::get('/download/{id}', [PayslipController::class, 'download', 'as' => 'admin.payslip.download'])->name('payslip_download');
     });
 
     Route::get('/employee-detail', [UserController::class, 'detail', 'as' => 'admin.subadmin.detail'])->name('subadmin_detail');

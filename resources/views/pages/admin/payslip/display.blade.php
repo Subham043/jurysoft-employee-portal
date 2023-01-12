@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-sm">
                                 <div class="d-flex justify-content-sm-end">
-                                    <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_pdf' : 'payslip_display_user', $country->id)}}" type="button" class="btn btn-secondary add-btn me-2" id="create-btn"><i class="ri-download-fill align-bottom me-1"></i> Download</a>
+                                    <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_pdf' : 'payslip_download_request_user_get', $country->id)}}" type="button" class="btn btn-secondary add-btn me-2" id="create-btn"><i class="ri-download-fill align-bottom me-1"></i> Download</a>
                                     @if(Auth::user() &&  Auth::user()->userType == 1)
                                     <a href="{{route('payslip_edit', $country->id)}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"><i class="ri-edit-line align-bottom me-1"></i> Edit</a>
                                     <button onclick="deleteHandler('{{route('payslip_delete', $country->id)}}')" type="button" class="btn btn-danger add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Delete</button>

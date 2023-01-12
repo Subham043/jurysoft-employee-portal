@@ -9,12 +9,14 @@ use Illuminate\Support\Facades\View;
 use App\Support\Types\UserType;
 use App\Models\User;
 use App\Models\Payslip;
+use App\Models\PayslipDownload;
 use App\Models\CtcFixedItem;
 use App\Exports\PayslipExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Pdf;
 use Uuid;
+use Storage;
 
 class PayslipController extends Controller
 {
@@ -228,6 +230,48 @@ class PayslipController extends Controller
             "conveyance_allowance" => $this->allowance(2),
             "professional_tax" => $this->allowance(3),
         ]);
+    }
+
+    public function download_request_user_get($id) {
+        $payslip = Payslip::where('user_id', Auth::user()->id)->findOrFail($id);
+        return view('pages.admin.payslip.download')->with('payslip',$payslip);
+    }
+
+    public function download_request_user_post(Request $req, $id) {
+        $payslip = Payslip::with(['User'])->where('user_id', Auth::user()->id)->findOrFail($id);
+        $rules = [
+            'reason' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
+        ];
+        $messages = [
+            'reason.required' => 'Please enter the reason !',
+            'reason.regex' => 'Please enter the valid reason !',
+        ];
+        $validator = $req->validate($rules,$messages);
+
+        $payslip_download = new PayslipDownload;
+        $payslip_download->reason = $req->reason;
+        $payslip_download->user_id = Auth::user()->id;
+        $payslip_download->payslip_id = $id;
+        $result = $payslip_download->save();
+
+        $uuid = Uuid::generate(4)->string;
+
+        $data = [
+            'payslip' => $payslip,
+        ];
+          
+        $pdf = PDF::loadView('pdf.payslip', $data)->setPaper('a4', 'potrait');
+        $pdf->save(storage_path('app/public/payslip/').$uuid.'.pdf');
+
+        if($result){
+            return redirect()->intended(route('payslip_download', $uuid.'.pdf'))->with('success_status', 'Data Stored successfully.');
+        }else{
+            return redirect()->intended(route('payslip_create'))->with('error_status', 'Something went wrong. Please try again');
+        }
+    }
+
+    public function download($file_name){
+        return response()->download(Storage::path('/public/payslip/'.$file_name))->deleteFileAfterSend(true);
     }
 
 }
