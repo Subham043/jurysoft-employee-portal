@@ -79,6 +79,11 @@
                                     <i class="ri-file-list-3-fill"></i> <span data-key="t-widgets">Payslip</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{strpos(url()->current(),'payslip') !== false ? 'active' : ''}}" href="{{route('payslip_download_view')}}">
+                                    <i class="ri-download-fill"></i> <span data-key="t-widgets">Payslip Downloads</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <!-- Sidebar -->

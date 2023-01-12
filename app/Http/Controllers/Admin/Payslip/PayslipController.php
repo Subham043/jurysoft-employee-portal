@@ -274,4 +274,22 @@ class PayslipController extends Controller
         return response()->download(Storage::path('/public/payslip/'.$file_name))->deleteFileAfterSend(true);
     }
 
+    public function payslip_download_view(Request $request) {
+        if ($request->has('search')) {
+            $search = trim($request->input('search'));
+            $country = PayslipDownload::with(['User', 'Payslip'])->where(function ($query) use ($search) {
+                $query->where('reason', 'like', '%' . $search . '%');
+            })->orWhereHas('User', function($q)  use ($search){
+                $q->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('phone', 'like', '%' . $search . '%')
+                ->orWhere('jurysoft_id', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
+            })->paginate(10);
+        }else{
+            $country = PayslipDownload::with(['User', 'Payslip'])->orderBy('id', 'DESC')->paginate(10);
+        }
+        return view('pages.admin.payslip.download_list')->with('country', $country);
+    }
+
 }
