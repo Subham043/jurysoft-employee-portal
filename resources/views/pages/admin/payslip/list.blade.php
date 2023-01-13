@@ -40,6 +40,7 @@
                                         @if(Auth::user() &&  Auth::user()->userType == 1)
                                         <a href={{route('payslip_create')}} type="button" class="btn btn-success add-btn" style="background:green;border-color:green;" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
                                         <a href={{route('payslip_excel')}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
+                                        <a href={{route('payslip_download_view')}} type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-download-fill align-bottom me-1"></i> Payslip Downloads</a>
                                         @endif
                                     </div>
                                 </div>
