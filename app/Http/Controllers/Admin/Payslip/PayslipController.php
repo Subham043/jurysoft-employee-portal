@@ -183,7 +183,7 @@ class PayslipController extends Controller
     public function pdf($id){
         $payslip = Payslip::with(['User'])->findOrFail($id);
         $uuid = Uuid::generate(4)->string;
-
+        
         $data = [
             'payslip' => $payslip,
         ];

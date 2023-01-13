@@ -45,7 +45,7 @@
                                 <div class="row gy-4">
                                     <div class="col-xxl-12 col-md-12">
                                         <div>
-                                            <label for="month_year" class="form-label">Payslip Month & Year</label>
+                                            <label for="month_year" class="form-label">Reason</label>
                                             <textarea class="form-control" name="reason" id="reason" rows="7">{{old('reason')}}</textarea>
                                             @error('reason') 
                                                 <div class="invalid-message">{{ $message }}</div>
