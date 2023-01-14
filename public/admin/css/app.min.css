@@ -47,7 +47,7 @@
     --vz-vertical-menu-sub-item-hover-color: #5ea3cb;
     --vz-vertical-menu-sub-item-active-color: #5ea3cb;
     --vz-vertical-menu-title-color: #919da9;
-    --vz-vertical-menu-bg-dark: #2e3230;
+    --vz-vertical-menu-bg-dark: #011a4b;
     --vz-vertical-menu-item-color-dark: #a4b0bf;
     --vz-vertical-menu-item-hover-color-dark: #fff;
     --vz-vertical-menu-item-active-color-dark: #fff;
@@ -11471,10 +11471,10 @@ span.flatpickr-weekday {
         linear,
         left top,
         right top,
-        from(#96171c),
-        to(#ffcc00)
+        from(#011a4b),
+        to(#011a4b)
     );
-    background: linear-gradient(to right, #96171c, #ffcc00);
+    background: linear-gradient(to right, #011a4b, #011a4b);
     opacity: 0.9;
 }
 .auth-one-bg .shape {
@@ -14342,5 +14342,10 @@ span.flatpickr-weekday {
 }
 [data-layout-mode="dark"] .layout-wrapper.landing footer.bg-dark {
     background-color: var(--vz-card-bg) !important;
+}
+
+.text-primary {
+    --vz-text-opacity: 1;
+    color: #011a4b!important;
 }
 /*# sourceMappingURL=app.min.css.map */
