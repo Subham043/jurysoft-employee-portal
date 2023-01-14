@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <form id="countryForm" method="post" action="{{route('payslip_create')}}" enctype="multipart/form-data">
+                <form id="countryForm" method="post" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_create' : 'payslip_create_hr')}}" enctype="multipart/form-data">
                 @csrf
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
@@ -575,7 +575,7 @@ async function user_id_change(){
     try {
         var formData = new FormData();
         formData.append('user_id',document.getElementById('user_id').value)
-        const response = await axios.post('{{route('subadmin_json')}}', formData)
+        const response = await axios.post('{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_json' : 'subadmin_json_hr')}}', formData)
         document.getElementById('main_gross_salary').value = response.data.employee_main_gross_salary
         main_gross_salary = response.data.employee_main_gross_salary
         main_change()

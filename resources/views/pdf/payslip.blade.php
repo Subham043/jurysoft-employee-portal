@@ -45,16 +45,17 @@
     display: block;
     position: absolute;
     left: 0;
-    top: -70px;
+    /* top: -70px; */
+    top: 0px;
     width: 100%;
     height: 100%;
     opacity: 0.2;
     background-image: url('{{ public_path('storage/water-mark.png') }}');
-    background-size: cover;
+    background-size: auto;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-    background-size: 700px 950px;
+    /* background-size: 700px 950px; */
     }
     </style>
 </head>
@@ -74,7 +75,7 @@
                 </tbody>
             </table>
         </div>
-        {{-- <div style="width:100%;background-image:url('{{ public_path('storage/water-mark.png') }}');background-repeat: no-repeat;background-attachment: fixed;background-position: center;background-size: 700px 950px;"> --}}
+        {{-- <div style="width:100%;background-image:url('{{ public_path('storage/water-mark.png') }}');background-repeat: no-repeat;background-attachment: fixed;background-position: center;background-size: auto;"> --}}
         <div class="demo-wrap">
             <div class="container">
                 <table style="width: 100%;border-spacing: 0;border-top:2px solid black;border-bottom:2px solid black;">

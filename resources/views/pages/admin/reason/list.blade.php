@@ -11,12 +11,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Payslip</h4>
+                    <h4 class="mb-sm-0">Payslip Download Reason</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Payslip</a></li>
-                            <li class="breadcrumb-item active">Download List</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Payslip Download Reason</a></li>
+                            <li class="breadcrumb-item active">List</li>
                         </ol>
                     </div>
 
@@ -29,7 +29,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Payslip</h4>
+                        <h4 class="card-title mb-0">Payslip Download Reason</h4>
                     </div><!-- end card header -->
 
                     <div class="card-body">
@@ -37,11 +37,12 @@
                             <div class="row g-4 mb-3">
                                 <div class="col-sm-auto">
                                     <div>
-                                        <a href={{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_excel_download' : 'payslip_excel_download_hr')}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
+                                        <a href={{route('payslip_download_reason_create')}} type="button" class="btn btn-success add-btn" style="background:green;border-color:green;" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
+                                        <a href={{route('payslip_download_reason_excel')}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
                                     </div>
                                 </div>
                                 <div class="col-sm">
-                                    <form  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_download_view' : 'payslip_download_view_hr')}}">
+                                    <form  method="get" action="{{route('payslip_download_reason_view')}}">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
                                                 <input type="text" name="search" class="form-control search" placeholder="Search..." value="@if(app('request')->has('search')){{app('request')->input('search')}}@endif">
@@ -56,10 +57,7 @@
                                 <table class="table align-middle table-nowrap" id="customerTable">
                                     <thead class="table-light">
                                         <tr>
-                                            <th class="sort" data-sort="customer_name">Download ID</th>
-                                            <th class="sort" data-sort="customer_name">Employee ID</th>
-                                            <th class="sort" data-sort="customer_name">Employee</th>
-                                            <th class="sort" data-sort="customer_name">Payslip Month & Year</th>
+                                            <th class="sort" data-sort="customer_name">ID</th>
                                             <th class="sort" data-sort="customer_name">Reason</th>
                                             <th class="sort" data-sort="date">Created Date</th>
                                             <th class="sort" data-sort="action">Action</th>
@@ -70,15 +68,18 @@
                                         @foreach ($country->items() as $item)
                                         <tr>
                                             <td class="customer_name">{{$item->id}}</td>
-                                            <td class="customer_name">{{$item->user->jurysoft_id}}</td>
-                                            <td class="customer_name">{{$item->user->full_name}}</td>
-                                            <td class="customer_name">{{$item->payslip->month_year_formatted}}</td>
-                                            <td class="customer_name">{{$item->PayslipDownloadReason->reason}}</td>
+                                            <td class="customer_name">{{$item->reason}}</td>
                                             <td class="date">{{$item->created_at}}</td>
                                             <td>
                                                 <div class="d-flex gap-2">
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_display' : 'payslip_display_hr', $item->payslip->id)}}" class="btn btn-sm btn-info edit-item-btn" target="_blank">View Payslip</a>
+                                                        <a href="{{route('payslip_download_reason_display', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
+                                                    </div>
+                                                    <div class="edit">
+                                                        <a href="{{route('payslip_download_reason_edit', $item->id)}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
+                                                    </div>
+                                                    <div class="remove">
+                                                        <button class="btn btn-sm btn-danger remove-item-btn" style="background:red" onclick="deleteHandler('{{route('payslip_download_reason_delete', $item->id)}}')">Delete</button>
                                                     </div>
                                                 </div>
                                             </td>
@@ -127,5 +128,50 @@
 
     </div>
 </div>
+
+@stop
+
+@section('javascript')
+
+{{-- <script src="{ asset('admin/libs/list.js/list.min.js') }}"></script> --}}
+{{-- <script src="{ asset('admin/libs/list.pagination.js/list.pagination.min.js') }}"></script> --}}
+
+<!-- listjs init -->
+{{-- <script src="{ asset('admin/js/pages/listjs.init.js') }}"></script> --}}
+
+<script>
+    function deleteHandler(url){
+        iziToast.question({
+            timeout: 20000,
+            close: false,
+            overlay: true,
+            displayMode: 'once',
+            id: 'question',
+            zindex: 999,
+            title: 'Hey',
+            message: 'Are you sure about that?',
+            position: 'center',
+            buttons: [
+                ['<button><b>YES</b></button>', function (instance, toast) {
+
+                    window.location.replace(url);
+                    // instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+        
+                }, true],
+                ['<button>NO</button>', function (instance, toast) {
+        
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+        
+                }],
+            ],
+            onClosing: function(instance, toast, closedBy){
+                console.info('Closing | closedBy: ' + closedBy);
+            },
+            onClosed: function(instance, toast, closedBy){
+                console.info('Closed | closedBy: ' + closedBy);
+            }
+        });
+    }
+</script>
 
 @stop

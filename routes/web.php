@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\EmployeeType\EmployeeTypeController;
 use App\Http\Controllers\Admin\ExitMode\ExitModeController;
 use App\Http\Controllers\Admin\CtcFixedItem\CtcFixedItemController;
 use App\Http\Controllers\Admin\Payslip\PayslipController;
+use App\Http\Controllers\Admin\Ctc\CtcController;
+use App\Http\Controllers\Admin\PayslipDownloadReason\PayslipDownloadReasonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +55,18 @@ Route::prefix('/')->middleware(['auth', 'admin', 'blocked'])->group(function () 
         Route::get('/edit/{id}', [UserController::class, 'edit', 'as' => 'admin.subadmin.edit'])->name('subadmin_edit');
         Route::post('/edit/{id}', [UserController::class, 'update', 'as' => 'admin.subadmin.update'])->name('subadmin_update');
         Route::get('/delete/{id}', [UserController::class, 'delete', 'as' => 'admin.subadmin.delete'])->name('subadmin_delete');
+
+        Route::prefix('/ctc/{user_id}')->group(function () {
+            Route::get('/', [CtcController::class, 'view', 'as' => 'admin.ctc.view'])->name('ctc_view');
+            Route::get('/view/{id}', [CtcController::class, 'display', 'as' => 'admin.ctc.display'])->name('ctc_display');
+            Route::get('/create', [CtcController::class, 'create', 'as' => 'admin.ctc.create'])->name('ctc_create');
+            Route::post('/create', [CtcController::class, 'store', 'as' => 'admin.ctc.store'])->name('ctc_store');
+            Route::post('/get-user-json', [CtcController::class, 'json', 'as' => 'admin.ctc.json'])->name('ctc_json');
+            Route::get('/excel', [CtcController::class, 'excel', 'as' => 'admin.ctc.excel'])->name('ctc_excel');
+            Route::get('/edit/{id}', [CtcController::class, 'edit', 'as' => 'admin.ctc.edit'])->name('ctc_edit');
+            Route::post('/edit/{id}', [CtcController::class, 'update', 'as' => 'admin.ctc.update'])->name('ctc_update');
+            Route::get('/delete/{id}', [CtcController::class, 'delete', 'as' => 'admin.ctc.delete'])->name('ctc_delete');
+        });
 
         Route::prefix('/picture')->group(function () {
             Route::get('/{employee_id}', [UserPictureController::class, 'picture_display', 'as' => 'admin.subadmin.picture_display'])->name('subadmin_picture_display');
@@ -93,7 +107,18 @@ Route::prefix('/')->middleware(['auth', 'admin', 'blocked'])->group(function () 
         Route::get('/delete/{id}', [DivisionController::class, 'delete', 'as' => 'admin.division.delete'])->name('division_delete');
     });
     
-    Route::prefix('/ctc')->group(function () {
+    Route::prefix('/payslip-download-reason')->group(function () {
+        Route::get('/', [PayslipDownloadReasonController::class, 'view', 'as' => 'admin.payslip_download_reason.view'])->name('payslip_download_reason_view');
+        Route::get('/view/{id}', [PayslipDownloadReasonController::class, 'display', 'as' => 'admin.payslip_download_reason.display'])->name('payslip_download_reason_display');
+        Route::get('/create', [PayslipDownloadReasonController::class, 'create', 'as' => 'admin.payslip_download_reason.create'])->name('payslip_download_reason_create');
+        Route::post('/create', [PayslipDownloadReasonController::class, 'store', 'as' => 'admin.payslip_download_reason.store'])->name('payslip_download_reason_store');
+        Route::get('/excel', [PayslipDownloadReasonController::class, 'excel', 'as' => 'admin.payslip_download_reason.excel'])->name('payslip_download_reason_excel');
+        Route::get('/edit/{id}', [PayslipDownloadReasonController::class, 'edit', 'as' => 'admin.payslip_download_reason.edit'])->name('payslip_download_reason_edit');
+        Route::post('/edit/{id}', [PayslipDownloadReasonController::class, 'update', 'as' => 'admin.payslip_download_reason.update'])->name('payslip_download_reason_update');
+        Route::get('/delete/{id}', [PayslipDownloadReasonController::class, 'delete', 'as' => 'admin.payslip_download_reason.delete'])->name('payslip_download_reason_delete');
+    });
+    
+    Route::prefix('/organization')->group(function () {
         Route::get('/medical-allowance', [CtcFixedItemController::class, 'medical_allowance_create', 'as' => 'admin.ctc.medical_allowance_create'])->name('medical_allowance_create');
         Route::post('/medical-allowance-save', [CtcFixedItemController::class, 'medical_allowance_store', 'as' => 'admin.ctc.medical_allowance_store'])->name('medical_allowance_store');
         Route::get('/conveyance-allowance', [CtcFixedItemController::class, 'conveyance_allowance_create', 'as' => 'admin.ctc.conveyance_allowance_create'])->name('conveyance_allowance_create');
@@ -159,4 +184,47 @@ Route::prefix('/')->middleware(['auth', 'blocked'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');
     Route::get('/logout', [LogoutController::class, 'logout', 'as' => 'admin.logout'])->name('logout');
+});
+
+Route::prefix('/')->middleware(['auth', 'hr', 'blocked'])->group(function () {
+    Route::prefix('/employee-management')->group(function () {
+        Route::get('/', [UserController::class, 'view', 'as' => 'admin.subadmin.view'])->name('subadmin_view_hr');
+        Route::get('/view/{id}', [UserController::class, 'display', 'as' => 'admin.subadmin.display'])->name('subadmin_display_hr');
+        Route::get('/create', [UserController::class, 'create', 'as' => 'admin.subadmin.create'])->name('subadmin_create_hr');
+        Route::post('/create', [UserController::class, 'store', 'as' => 'admin.subadmin.store'])->name('subadmin_store_hr');
+        Route::post('/get-user-json', [UserController::class, 'json', 'as' => 'admin.subadmin.json'])->name('subadmin_json_hr');
+        Route::get('/excel', [UserController::class, 'excel', 'as' => 'admin.subadmin.excel'])->name('subadmin_excel_hr');
+        Route::get('/edit/{id}', [UserController::class, 'edit', 'as' => 'admin.subadmin.edit'])->name('subadmin_edit_hr');
+        Route::post('/edit/{id}', [UserController::class, 'update', 'as' => 'admin.subadmin.update'])->name('subadmin_update_hr');
+
+        Route::prefix('/ctc/{user_id}')->group(function () {
+            Route::get('/', [CtcController::class, 'view', 'as' => 'admin.ctc.view'])->name('ctc_view_hr');
+            Route::get('/view/{id}', [CtcController::class, 'display', 'as' => 'admin.ctc.display'])->name('ctc_display_hr');
+            Route::get('/create', [CtcController::class, 'create', 'as' => 'admin.ctc.create'])->name('ctc_create_hr');
+            Route::post('/create', [CtcController::class, 'store', 'as' => 'admin.ctc.store'])->name('ctc_store_hr');
+            Route::post('/get-user-json', [CtcController::class, 'json', 'as' => 'admin.ctc.json'])->name('ctc_json_hr');
+            Route::get('/excel', [CtcController::class, 'excel', 'as' => 'admin.ctc.excel'])->name('ctc_excel_hr');
+            Route::get('/edit/{id}', [CtcController::class, 'edit', 'as' => 'admin.ctc.edit'])->name('ctc_edit_hr');
+            Route::post('/edit/{id}', [CtcController::class, 'update', 'as' => 'admin.ctc.update'])->name('ctc_update_hr');
+        });
+
+        Route::prefix('/picture')->group(function () {
+            Route::get('/{employee_id}', [UserPictureController::class, 'picture_display', 'as' => 'admin.subadmin.picture_display'])->name('subadmin_picture_display_hr');
+            Route::post('/{employee_id}', [UserPictureController::class, 'picture_save', 'as' => 'admin.subadmin.picture_save'])->name('subadmin_picture_save_hr');
+        });
+    });
+
+    Route::prefix('/payslip-management')->group(function () {
+        Route::get('/', [PayslipController::class, 'view', 'as' => 'admin.payslip.view'])->name('payslip_view_hr');
+        Route::get('/download-list', [PayslipController::class, 'payslip_download_view', 'as' => 'admin.payslip.download_view'])->name('payslip_download_view_hr');
+        Route::get('/view/{id}', [PayslipController::class, 'display', 'as' => 'admin.payslip.display'])->name('payslip_display_hr');
+        Route::get('/pdf/{id}', [PayslipController::class, 'pdf', 'as' => 'admin.payslip.pdf'])->name('payslip_pdf_hr');
+        Route::get('/create', [PayslipController::class, 'create', 'as' => 'admin.payslip.create'])->name('payslip_create_hr');
+        Route::post('/create', [PayslipController::class, 'store', 'as' => 'admin.payslip.store'])->name('payslip_store_hr');
+        Route::get('/excel', [PayslipController::class, 'excel', 'as' => 'admin.payslip.excel'])->name('payslip_excel_hr');
+        Route::get('/excel-downloads', [PayslipController::class, 'excel_download', 'as' => 'admin.payslip.excel_download'])->name('payslip_excel_download_hr');
+        Route::get('/edit/{id}', [PayslipController::class, 'edit', 'as' => 'admin.payslip.edit'])->name('payslip_edit_hr');
+        Route::post('/edit/{id}', [PayslipController::class, 'update', 'as' => 'admin.payslip.update'])->name('payslip_update_hr');
+        Route::get('/delete/{id}', [PayslipController::class, 'delete', 'as' => 'admin.payslip.delete'])->name('payslip_delete_hr');
+    });
 });

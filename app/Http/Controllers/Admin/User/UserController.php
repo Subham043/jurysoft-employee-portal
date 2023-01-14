@@ -24,7 +24,6 @@ use App\Models\EmployeeEmergencyDetail;
 use App\Models\EmployeeEmploymentDetail;
 use App\Models\EmployeeJobDetail;
 use App\Models\EmployeePersonalDetail;
-use App\Models\CtcFixedItem;
 use App\Exports\UserExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
@@ -53,9 +52,6 @@ class UserController extends Controller
             "designation" => Designation::all(),
             "division" => Division::all(),
             "employeeType" => EmployeeType::all(),
-            "medical_allowance" => $this->allowance(1),
-            "conveyance_allowance" => $this->allowance(2),
-            "professional_tax" => $this->allowance(3),
         ]);
     }
 
@@ -64,7 +60,6 @@ class UserController extends Controller
             'first_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'last_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'userType' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
-            'main_gross_salary' => ['required','regex:/^[0-9\.]*$/'],
             'email' => ['required','email','unique:users'],
             'phone' => ['required','regex:/^[0-9]*$/','unique:users'],
             'password' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
@@ -104,8 +99,6 @@ class UserController extends Controller
             'first_name.regex' => 'Please enter the valid first name !',
             'last_name.required' => 'Please enter the last name !',
             'last_name.regex' => 'Please enter the valid last name !',
-            'main_gross_salary.required' => 'Please enter the main gross salary !',
-            'main_gross_salary.regex' => 'Please enter the valid main gross salary !',
             'userType.required' => 'Please enter the user type !',
             'userType.regex' => 'Please enter the valid user type !',
             'email.required' => 'Please enter the email !',
@@ -189,7 +182,6 @@ class UserController extends Controller
         $user->email = $req->email;
         $user->phone = $req->phone;
         $user->userType = $req->userType;
-        $user->main_gross_salary = $req->main_gross_salary;
         $user->status = $req->status==="on" ? 1 : 0;
         $user->password = Hash::make($req->password);
         $user->otp = rand(1000,9999);
@@ -270,9 +262,6 @@ class UserController extends Controller
             "designation" => Designation::all(),
             "division" => Division::all(),
             "employeeType" => EmployeeType::all(),
-            "medical_allowance" => $this->allowance(1),
-            "conveyance_allowance" => $this->allowance(2),
-            "professional_tax" => $this->allowance(3),
         ]);
     }
 
@@ -281,7 +270,6 @@ class UserController extends Controller
         $rules = array(
             'first_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'last_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
-            'main_gross_salary' => ['required','regex:/^[0-9\.]*$/'],
             'jurysoft_id' => ['required','regex:/^[a-zA-Z0-9\-]*$/'],
             'userType' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email'],
@@ -321,8 +309,6 @@ class UserController extends Controller
             'first_name.regex' => 'Please enter the valid first name !',
             'last_name.required' => 'Please enter the last name !',
             'last_name.regex' => 'Please enter the valid last name !',
-            'main_gross_salary.required' => 'Please enter the main gross salary !',
-            'main_gross_salary.regex' => 'Please enter the valid main gross salary !',
             'userType.required' => 'Please enter the user type !',
             'userType.regex' => 'Please enter the valid user type !',
             'email.required' => 'Please enter the email !',
@@ -414,7 +400,6 @@ class UserController extends Controller
         $user->first_name = $req->first_name;
         $user->last_name = $req->last_name;
         $user->jurysoft_id = $req->jurysoft_id;
-        $user->main_gross_salary = $req->main_gross_salary;
         $user->email = $req->email;
         $user->phone = $req->phone;
         $user->userType = $req->userType;
@@ -509,9 +494,6 @@ class UserController extends Controller
             "genderType" => GenderType::lists(),
             "relationshipType" => RelationshipType::lists(),
             "workStatusType" => WorkStatusType::lists(),
-            "medical_allowance" => $this->allowance(1),
-            "conveyance_allowance" => $this->allowance(2),
-            "professional_tax" => $this->allowance(3),
         ]);
     }
 
@@ -550,22 +532,7 @@ class UserController extends Controller
             "genderType" => GenderType::lists(),
             "relationshipType" => RelationshipType::lists(),
             "workStatusType" => WorkStatusType::lists(),
-            "medical_allowance" => $this->allowance(1),
-            "conveyance_allowance" => $this->allowance(2),
-            "professional_tax" => $this->allowance(3),
         ]);
-    }
-
-    protected function allowance($id){
-        try {
-            //code...
-            $ctcFixedItem = CtcFixedItem::findOrFail($id);
-        } catch (\Throwable $th) {
-            //throw $th;
-            $ctcFixedItem = null;
-        }
-
-        return $ctcFixedItem;
     }
 
 }

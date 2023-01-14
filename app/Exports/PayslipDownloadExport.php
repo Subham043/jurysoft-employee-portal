@@ -30,12 +30,12 @@ class PayslipDownloadExport implements FromCollection,WithHeadings,WithMapping
              $payslip->User->jurysoft_id,
              $payslip->User->full_name,
              $payslip->Payslip->month_year_formatted,
-             $payslip->reason,
+             $payslip->PayslipDownloadReason->reason,
              $payslip->created_at,
          ];
     }
     public function collection()
     {
-        return PayslipDownload::with(['User', 'Payslip'])->get();
+        return PayslipDownload::with(['User', 'Payslip', 'PayslipDownloadReason'])->get();
     }
 }

@@ -9,25 +9,23 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Models\CtcFixedItem;
 
-class PayslipDownload extends Model
+class Ctc extends Model
 {
     use HasFactory;
 
-    protected $table = 'payslip_downloads';
+    protected $table = 'ctcs';
+    protected $appends = ['month_year_formatted'];
 
     public function User()
     {
         return $this->belongsTo('App\Models\User', 'user_id');
     }
-    
-    public function Payslip()
+
+    protected function monthYearFormatted(): Attribute
     {
-        return $this->belongsTo('App\Models\Payslip', 'payslip_id');
-    }
-    
-    public function PayslipDownloadReason()
-    {
-        return $this->belongsTo('App\Models\PayslipDownloadReason', 'reason');
+        return new Attribute(
+            get: fn () => Carbon::parse($this->month_year)->format('M, Y'),
+        );
     }
 
 

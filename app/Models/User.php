@@ -63,10 +63,15 @@ class User extends Authenticatable
         if(strlen(strval($this->id))>=3){
             return 'JS-'.$this->id;
         }else{
-            return 'JS-0'.$this->id;
+            return 'JS0'.$this->id;
         }
     }
 
+    public function Ctc()
+    {
+        return $this->hasMany('App\Models\Ctc', 'user_id');
+    }
+    
     public function DepartmentCreated()
     {
         return $this->hasMany('App\Models\Department', 'user_id');

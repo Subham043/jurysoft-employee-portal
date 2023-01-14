@@ -46,7 +46,12 @@
                                     <div class="col-xxl-12 col-md-12">
                                         <div>
                                             <label for="month_year" class="form-label">Reason</label>
-                                            <textarea class="form-control" name="reason" id="reason" rows="7">{{old('reason')}}</textarea>
+                                            <select class="form-control" name="reason" id="reason">
+                                                <option disabled>Select A Reason</option>
+                                                @foreach($reasons as $reasons)
+                                                <option value="{{$reasons->id}}">{{$reasons->reason}}</option>
+                                                @endforeach
+                                            </select>
                                             @error('reason') 
                                                 <div class="invalid-message">{{ $message }}</div>
                                             @enderror

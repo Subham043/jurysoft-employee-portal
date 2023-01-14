@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\View;
 use App\Support\Types\UserType;
 use App\Models\User;
 use App\Models\Payslip;
+use App\Models\PayslipDownloadReason;
 use App\Models\PayslipDownload;
 use App\Models\CtcFixedItem;
 use App\Exports\PayslipExport;
@@ -235,7 +236,9 @@ class PayslipController extends Controller
 
     public function download_request_user_get($id) {
         $payslip = Payslip::where('user_id', Auth::user()->id)->findOrFail($id);
-        return view('pages.admin.payslip.download')->with('payslip',$payslip);
+        return view('pages.admin.payslip.download')->with('payslip',$payslip)->with([
+            'reasons' => PayslipDownloadReason::all(),
+        ]);
     }
 
     public function download_request_user_post(Request $req, $id) {
