@@ -89,7 +89,7 @@
                                                         <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_edit' : 'subadmin_edit_hr', $item->id)}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
                                                     </div>
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'ctc_view' : 'ctc_view_hr', $item->id)}}" style="background:blue;color:white;border-color:blue;" class="btn btn-sm btn-success edit-item-btn">CTC</a>
+                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'ctc_view' : 'ctc_view_hr', $item->id)}}" style="background:brown;color:white;border-color:brown;" class="btn btn-sm btn-success edit-item-btn">CTC</a>
                                                     </div>
                                                     <div class="edit">
                                                         <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_picture_display' : 'subadmin_picture_display_hr', $item->id)}}" style="background:purple;color:white;border-color:purple;" class="btn btn-sm btn-success edit-item-btn">Picture</a>
