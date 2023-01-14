@@ -27,10 +27,10 @@ class PayslipDownloadExport implements FromCollection,WithHeadings,WithMapping
 
          return[
              $payslip->id,
-             $payslip->User->jurysoft_id,
-             $payslip->User->full_name,
-             $payslip->Payslip->month_year_formatted,
-             $payslip->PayslipDownloadReason->reason,
+             $payslip->User ? $payslip->User->jurysoft_id : '',
+             $payslip->User ? $payslip->User->full_name : '',
+             $payslip->Payslip ? $payslip->Payslip->month_year_formatted : '',
+             $payslip->PayslipDownloadReason ? $payslip->PayslipDownloadReason->reason : '',
              $payslip->created_at,
          ];
     }

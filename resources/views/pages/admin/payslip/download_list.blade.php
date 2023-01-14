@@ -11,11 +11,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Payslip</h4>
+                    <h4 class="mb-sm-0">Payslip Download List</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Payslip</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Payslip Download List</a></li>
                             <li class="breadcrumb-item active">Download List</li>
                         </ol>
                     </div>
@@ -29,7 +29,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Payslip</h4>
+                        <h4 class="card-title mb-0">Payslip Download List</h4>
                     </div><!-- end card header -->
 
                     <div class="card-body">
@@ -70,10 +70,10 @@
                                         @foreach ($country->items() as $item)
                                         <tr>
                                             <td class="customer_name">{{$item->id}}</td>
-                                            <td class="customer_name">{{$item->user->jurysoft_id}}</td>
-                                            <td class="customer_name">{{$item->user->full_name}}</td>
-                                            <td class="customer_name">{{$item->payslip->month_year_formatted}}</td>
-                                            <td class="customer_name">{{$item->PayslipDownloadReason->reason}}</td>
+                                            <td class="customer_name">{{$item->user ? $item->user->jurysoft_id : ''}}</td>
+                                            <td class="customer_name">{{$item->user ? $item->user->full_name : ''}}</td>
+                                            <td class="customer_name">{{$item->payslip ? $item->payslip->month_year_formatted : ''}}</td>
+                                            <td class="customer_name">{{$item->PayslipDownloadReason ? $item->PayslipDownloadReason->reason : ''}}</td>
                                             <td class="date">{{$item->created_at}}</td>
                                             <td>
                                                 <div class="d-flex gap-2">

@@ -1206,7 +1206,7 @@ const choicesDepartment = new Choices('#department_id', {
             {
                 value: '{{$val->id}}',
                 label: '{{$val->name}}',
-                selected: {{$country->EmployeeJobDetail->Department->id==$val->id ? 'true' : 'false'}},
+                selected: {{$country->EmployeeJobDetail->Department && $country->EmployeeJobDetail->Department->id==$val->id ? 'true' : 'false'}},
             },
         @endforeach
     ],
@@ -1301,7 +1301,7 @@ const choicesDivision = new Choices('#division_id', {
             {
                 value: '{{$val->id}}',
                 label: '{{$val->name}}',
-                selected: {{$country->EmployeeJobDetail->Division->id==$val->id ? 'true' : 'false'}},
+                selected: {{$country->EmployeeJobDetail->Division && $country->EmployeeJobDetail->Division->id==$val->id ? 'true' : 'false'}},
             },
         @endforeach
     ],
@@ -1396,7 +1396,7 @@ const choicesDesignation = new Choices('#designation_id', {
             {
                 value: '{{$val->id}}',
                 label: '{{$val->name}}',
-                selected: {{$country->EmployeeJobDetail->Designation->id==$val->id ? 'true' : 'false'}},
+                selected: {{$country->EmployeeJobDetail->Designation && $country->EmployeeJobDetail->Designation->id==$val->id ? 'true' : 'false'}},
             },
         @endforeach
     ],
@@ -1491,7 +1491,7 @@ const choicesEmployeeType = new Choices('#employee_type_id', {
             {
                 value: '{{$val->id}}',
                 label: '{{$val->name}}',
-                selected: {{$country->EmployeeJobDetail->EmployeeType->id==$val->id ? 'true' : 'false'}},
+                selected: {{$country->EmployeeJobDetail->EmployeeType && $country->EmployeeJobDetail->EmployeeType->id==$val->id ? 'true' : 'false'}},
             },
         @endforeach
     ],

@@ -43,7 +43,7 @@ class PayslipExport implements FromCollection,WithHeadings,WithMapping
 
          return[
              $payslip->id,
-             $payslip->User->full_name.'~'.$payslip->User->jurysoft_id,
+             $payslip->User ? $payslip->User->full_name.'~'.$payslip->User->jurysoft_id : '',
              $payslip->month_year_formatted,
              $payslip->total_days_of_month,
              $payslip->working_days_of_month,

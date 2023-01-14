@@ -74,7 +74,7 @@
                                         @foreach ($country->items() as $item)
                                         <tr>
                                             <td class="customer_name">{{$item->id}}</td>
-                                            <td class="customer_name">{{$item->user->full_name}}~{{$item->user->jurysoft_id}}</td>
+                                            <td class="customer_name">{{$item->user ? $item->user->full_name : ''}}~{{$item->user ? $item->user->jurysoft_id : ''}}</td>
                                             <td class="customer_name">{{$item->month_year_formatted}}</td>
                                             <td class="customer_name">{{$item->total_days_of_month}}</td>
                                             <td class="customer_name">{{$item->worked_days}}</td>

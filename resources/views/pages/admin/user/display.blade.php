@@ -212,25 +212,25 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
                                             <p class="mb-2 text-uppercase fw-medium fs-13">Department :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->Department->name}}</h5>
+                                            <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->Department ? $country->EmployeeJobDetail->Department->name : ''}}</h5>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
                                             <p class="mb-2 text-uppercase fw-medium fs-13">Division :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->Division->name}}</h5>
+                                            <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->Division ? $country->EmployeeJobDetail->Division->name : ''}}</h5>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
                                             <p class="mb-2 text-uppercase fw-medium fs-13">Employee Type :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->EmployeeType->name}}</h5>
+                                            <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->EmployeeType ? $country->EmployeeJobDetail->EmployeeType->name : ''}}</h5>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
                                             <p class="mb-2 text-uppercase fw-medium fs-13">Designation :</p>
-                                            <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->Designation->name}}</h5>
+                                            <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->Designation ? $country->EmployeeJobDetail->Designation->name : ''}}</h5>
                                         </div>
                                     </div>
                                 </div>
