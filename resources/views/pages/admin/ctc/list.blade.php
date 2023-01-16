@@ -76,7 +76,7 @@
                                         <tr>
                                             <td class="customer_name">{{$v->id}}</td>
                                             <td class="customer_name">{{$v->ctc}}</td>
-                                            <td class="customer_name">@if( ($country->total()-1)>=$k &&  $v->month_year){{$v->month_year_formatted}}@else <span class="badge badge-soft-success text-uppercase">Active</span> @endif</td>
+                                            <td class="customer_name">@if($country->total()==1) <span class="badge badge-soft-success text-uppercase">Active</span> @elseif(($country->total()-1)>=$k &&  $v->month_year){{$v->month_year_formatted}}@else <span class="badge badge-soft-success text-uppercase">Active</span> @endif</td>
                                             <td class="date">{{$v->created_at}}</td>
                                             <td>
                                                 <div class="d-flex gap-2">

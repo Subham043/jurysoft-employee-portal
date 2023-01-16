@@ -94,9 +94,7 @@ class CtcController extends Controller
         try {
             //code...
             $ctc_count = Ctc::where('user_id', $user_id)->count();
-            if($ctc_count==1){
-                $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
-            }elseif($ctc_count>1){
+            if($ctc_count>1){
                 $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->offset(1)->limit(1)->firstOrFail();
             }else{
                 $ctc = null;
