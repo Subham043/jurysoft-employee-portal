@@ -40,7 +40,7 @@
                     </div><!-- end card header -->
                     <div class="card-body">
                         <div class="live-preview">
-                            <form id="countryForm" method="post" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'ctc_update' : 'ctc_update_hr', [$user->id, $country->id])}}" enctype="multipart/form-data">
+                            <form id="countryForm" method="post" action="{{route('ctc_update', [$user->id, $country->id])}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row gy-4">
                                 <div class="{{$ctc ? 'col-xxl-6 col-md-6' : 'col-xxl-12 col-md-12'}}">

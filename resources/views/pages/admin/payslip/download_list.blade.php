@@ -37,17 +37,17 @@
                             <div class="row g-4 mb-3">
                                 <div class="col-sm-auto">
                                     <div>
-                                        <a href={{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_excel_download' : 'payslip_excel_download_hr')}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
+                                        <a href={{route('payslip_excel_download')}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
                                     </div>
                                 </div>
                                 <div class="col-sm d-flex justify-content-sm-end">
                                     <div class="col-sm-3">
-                                        <form class="d-flex align-items-center" id="filter_form"  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_download_view' : 'payslip_download_view_hr')}}">
+                                        <form class="d-flex align-items-center" id="filter_form"  method="get" action="{{route('payslip_download_view')}}">
                                             <label class="col-sm-3 m-0 p-0">Filter : </label>
                                             <input type="month" class="form-control" name="month_year" id="month_year" onchange="month_year_change()" value="@if(app('request')->has('month_year')){{app('request')->input('month_year')}}@endif">
                                         </form>
                                     </div>
-                                    <form  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_download_view' : 'payslip_download_view_hr')}}">
+                                    <form  method="get" action="{{route('payslip_download_view')}}">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
                                                 <input type="text" name="search" class="form-control search" placeholder="Search..." value="@if(app('request')->has('search')){{app('request')->input('search')}}@endif">
@@ -84,7 +84,7 @@
                                             <td>
                                                 <div class="d-flex gap-2">
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_display' : 'payslip_display_hr', $item->payslip->id)}}" class="btn btn-sm btn-info edit-item-btn" target="_blank">View Payslip</a>
+                                                        <a href="{{route('payslip_display', $item->payslip->id)}}" class="btn btn-sm btn-info edit-item-btn" target="_blank">View Payslip</a>
                                                     </div>
                                                 </div>
                                             </td>

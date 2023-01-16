@@ -62,7 +62,7 @@ class UserController extends Controller
         $rules = [
             'first_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'last_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
-            'userType' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
+            'userType' => [Auth::user() &&  Auth::user()->userType == 1 ? 'required' : 'nullable','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email','unique:users'],
             'phone' => ['required','regex:/^[0-9]*$/','unique:users'],
             'password' => ['required','regex:/^[a-z 0-9~%.:_\@\-\/\(\)\\\#\;\[\]\{\}\$\!\&\<\>\'\r\n+=,]+$/i'],
@@ -184,7 +184,7 @@ class UserController extends Controller
         $user->last_name = $req->last_name;
         $user->email = $req->email;
         $user->phone = $req->phone;
-        $user->userType = $req->userType;
+        $user->userType = Auth::user() &&  Auth::user()->userType == 1 ? $req->userType : 2;
         $user->status = $req->status==="on" ? 1 : 0;
         $user->password = Hash::make($req->password);
         $user->otp = rand(1000,9999);
@@ -274,7 +274,7 @@ class UserController extends Controller
             'first_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'last_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'jurysoft_id' => ['required','regex:/^[a-zA-Z0-9\-]*$/'],
-            'userType' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
+            'userType' => [Auth::user() &&  Auth::user()->userType == 1 ? 'required' : 'nullable','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email'],
             'phone' => ['nullable','regex:/^[0-9]*$/'],
             'gender' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
@@ -405,7 +405,9 @@ class UserController extends Controller
         $user->jurysoft_id = $req->jurysoft_id;
         $user->email = $req->email;
         $user->phone = $req->phone;
-        $user->userType = $req->userType;
+        if(Auth::user() &&  Auth::user()->userType == 1){
+            $user->userType = $req->userType;
+        }
         $user->status = $req->status=="on" ? 1 : 0;
         if(!empty($req->password)){
             $user->password = Hash::make($req->password);

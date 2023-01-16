@@ -38,20 +38,20 @@
                                 <div class="col-sm-auto">
                                     <div>
                                         @if(Auth::user() &&  Auth::user()->userType != 2)
-                                        <a href={{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_create' : 'payslip_create_hr')}} type="button" class="btn btn-success add-btn" style="background:green;border-color:green;" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
-                                        <a href={{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_excel' : 'payslip_excel_hr')}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
-                                        <a href={{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_download_view' : 'payslip_download_view_hr')}} type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-download-fill align-bottom me-1"></i> Payslip Downloads</a>
+                                        <a href={{route('payslip_create')}} type="button" class="btn btn-success add-btn" style="background:green;border-color:green;" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
+                                        <a href={{route('payslip_excel')}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
+                                        <a href={{route('payslip_download_view')}} type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-download-fill align-bottom me-1"></i> Payslip Downloads</a>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-sm d-flex justify-content-sm-end">
                                     <div class="col-sm-3">
-                                        <form class="d-flex align-items-center" id="filter_form"  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_view' : (Auth::user() &&  Auth::user()->userType == 3 ? 'payslip_view_hr' : 'payslip_view_user'))}}">
+                                        <form class="d-flex align-items-center" id="filter_form"  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 || Auth::user()->userType == 3 ? 'payslip_view' : 'payslip_view_user')}}">
                                             <label class="col-sm-3 m-0 p-0">Filter : </label>
                                             <input type="month" class="form-control" name="month_year" id="month_year" onchange="month_year_change()" value="@if(app('request')->has('month_year')){{app('request')->input('month_year')}}@endif">
                                         </form>
                                     </div>
-                                    <form  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_view' : (Auth::user() &&  Auth::user()->userType == 3 ? 'payslip_view_hr' : 'payslip_view_user'))}}">
+                                    <form  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 || Auth::user()->userType == 3 ? 'payslip_view' : 'payslip_view_user')}}">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
                                                 <input type="text" name="search" class="form-control search" placeholder="Search..." value="@if(app('request')->has('search')){{app('request')->input('search')}}@endif">
@@ -88,14 +88,14 @@
                                             <td>
                                                 <div class="d-flex gap-2">
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_display' : (Auth::user() &&  Auth::user()->userType == 3 ? 'payslip_display_hr' : 'payslip_display_user'), $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
+                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 || Auth::user()->userType == 3 ? 'payslip_display' : 'payslip_display_user', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_pdf' : (Auth::user() &&  Auth::user()->userType == 3 ? 'payslip_pdf_hr' : 'payslip_download_request_user_get'), $item->id)}}" class="btn btn-sm btn-secondary edit-item-btn">Download</a>
+                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 || Auth::user()->userType == 3 ? 'payslip_pdf' : 'payslip_download_request_user_get', $item->id)}}" class="btn btn-sm btn-secondary edit-item-btn">Download</a>
                                                     </div>
                                                     @if(Auth::user() &&  Auth::user()->userType != 2)
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_edit' : 'payslip_edit_hr', $item->id)}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
+                                                        <a href="{{route('payslip_edit', $item->id)}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
                                                     </div>
                                                     @endif
                                                     @if(Auth::user() &&  Auth::user()->userType == 1)

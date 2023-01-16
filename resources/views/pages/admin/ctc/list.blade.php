@@ -37,18 +37,18 @@
                             <div class="row g-4 mb-3">
                                 <div class="col-sm-auto">
                                     <div>
-                                        <a href={{route(Auth::user() &&  Auth::user()->userType == 1 ? 'ctc_create' : 'ctc_create_hr', $user->id)}} type="button" class="btn btn-success add-btn" style="background:green;border-color:green;" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
-                                        <a href={{route(Auth::user() &&  Auth::user()->userType == 1 ? 'ctc_excel' : 'ctc_excel_hr', $user->id)}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
+                                        <a href={{route('ctc_create', $user->id)}} type="button" class="btn btn-success add-btn" style="background:green;border-color:green;" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
+                                        <a href={{route('ctc_excel', $user->id)}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
                                     </div>
                                 </div>
                                 <div class="col-sm d-flex justify-content-sm-end">
                                     <div class="col-sm-3">
-                                        <form class="d-flex align-items-center" id="filter_form"  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'ctc_view' : 'ctc_view_hr', $user->id)}}">
+                                        <form class="d-flex align-items-center" id="filter_form"  method="get" action="{{route('ctc_view', $user->id)}}">
                                             <label class="col-sm-3 m-0 p-0">Filter : </label>
                                             <input type="month" class="form-control" name="month_year" id="month_year" onchange="month_year_change()" value="@if(app('request')->has('month_year')){{app('request')->input('month_year')}}@endif">
                                         </form>
                                     </div>
-                                    <form  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'ctc_view' : 'ctc_view_hr', $user->id)}}">
+                                    <form  method="get" action="{{route('ctc_view', $user->id)}}">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
                                                 <input type="text" name="search" class="form-control search" placeholder="Search..." value="@if(app('request')->has('search')){{app('request')->input('search')}}@endif">
@@ -81,10 +81,10 @@
                                             <td>
                                                 <div class="d-flex gap-2">
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'ctc_display' : 'ctc_display_hr', [$user->id, $v->id])}}" class="btn btn-sm btn-info edit-item-btn">View</a>
+                                                        <a href="{{route('ctc_display', [$user->id, $v->id])}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'ctc_edit' : 'ctc_edit_hr', [$user->id, $v->id])}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
+                                                        <a href="{{route('ctc_edit', [$user->id, $v->id])}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
                                                     </div>
                                                     @if(Auth::user() &&  Auth::user()->userType == 1)
                                                     <div class="remove">

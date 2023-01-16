@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Auth;
 
-class IsHR
+class IsAdminOrHR
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,10 @@ class IsHR
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() &&  Auth::user()->userType == 3) {
+        if (Auth::user() &&  Auth::user()->userType == 3 || Auth::user()->userType == 1) {
             return $next($request);
         }
 
-        return redirect(route('dashboard'))->with('error_status','You do not have hr access');
+        return redirect(route('dashboard'))->with('error_status','You do not have admin access');
     }
 }

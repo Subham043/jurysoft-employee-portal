@@ -37,12 +37,12 @@
                             <div class="row g-4 mb-3">
                                 <div class="col-sm-auto">
                                     <div>
-                                        <a href={{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_create' : 'subadmin_create_hr')}} type="button" class="btn btn-success add-btn" style="background:green;border-color:green;" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
-                                        <a href={{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_excel' : 'subadmin_excel_hr')}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
+                                        <a href={{route('subadmin_create')}} type="button" class="btn btn-success add-btn" style="background:green;border-color:green;" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
+                                        <a href={{route('subadmin_excel')}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
                                     </div>
                                 </div>
                                 <div class="col-sm">
-                                    <form  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_view' : 'subadmin_view_hr')}}">
+                                    <form  method="get" action="{{route('subadmin_view')}}">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
                                                 <input type="text" name="search" class="form-control search" placeholder="Search..." value="@if(app('request')->has('search')){{app('request')->input('search')}}@endif">
@@ -83,16 +83,16 @@
                                             <td>
                                                 <div class="d-flex gap-2">
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_display' : 'subadmin_display_hr', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
+                                                        <a href="{{route('subadmin_display', $item->id)}}" class="btn btn-sm btn-info edit-item-btn">View</a>
                                                     </div>
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_edit' : 'subadmin_edit_hr', $item->id)}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
+                                                        <a href="{{route('subadmin_edit', $item->id)}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
                                                     </div>
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'ctc_view' : 'ctc_view_hr', $item->id)}}" style="background:brown;color:white;border-color:brown;" class="btn btn-sm btn-success edit-item-btn">CTC</a>
+                                                        <a href="{{route('ctc_view', $item->id)}}" style="background:brown;color:white;border-color:brown;" class="btn btn-sm btn-success edit-item-btn">CTC</a>
                                                     </div>
                                                     <div class="edit">
-                                                        <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_picture_display' : 'subadmin_picture_display_hr', $item->id)}}" style="background:purple;color:white;border-color:purple;" class="btn btn-sm btn-success edit-item-btn">Picture</a>
+                                                        <a href="{{route('subadmin_picture_display', $item->id)}}" style="background:purple;color:white;border-color:purple;" class="btn btn-sm btn-success edit-item-btn">Picture</a>
                                                     </div>
                                                     @if(Auth::user() &&  Auth::user()->userType == 1)
                                                     <div class="remove">

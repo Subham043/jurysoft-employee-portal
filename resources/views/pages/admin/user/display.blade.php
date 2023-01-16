@@ -39,8 +39,8 @@
                             @if(Auth::user() &&  Auth::user()->userType != 2)
                             <div class="col-sm">
                                 <div class="d-flex justify-content-sm-end">
-                                    <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_picture_display' : 'subadmin_picture_display_hr', $country->id)}}" type="button" class="btn btn-secondary add-btn me-2" id="create-btn"><i class="ri-image-add-fill align-bottom me-1"></i> Picture</a>
-                                    <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_edit' : 'subadmin_edit_hr', $country->id)}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"><i class="ri-edit-line align-bottom me-1"></i> Edit</a>
+                                    <a href="{{route('subadmin_picture_display', $country->id)}}" type="button" class="btn btn-secondary add-btn me-2" id="create-btn"><i class="ri-image-add-fill align-bottom me-1"></i> Picture</a>
+                                    <a href="{{route('subadmin_edit', $country->id)}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"><i class="ri-edit-line align-bottom me-1"></i> Edit</a>
                                     @if(Auth::user() &&  Auth::user()->userType == 1)
                                     <button onclick="deleteHandler('{{route('subadmin_delete', $country->id)}}')" type="button" class="btn btn-danger add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Delete</button>
                                     @endif

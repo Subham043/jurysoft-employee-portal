@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <form id="countryForm" method="post" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_update' : 'subadmin_update_hr', $country->id)}}" enctype="multipart/form-data">
+                <form id="countryForm" method="post" action="{{route('subadmin_update', $country->id)}}" enctype="multipart/form-data">
                 @csrf
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
@@ -91,7 +91,7 @@
                                 <div class="col-xxl-3 col-md-3">
                                     <div>
                                         <label for="userType" class="form-label">User Type</label>
-                                        <select id="userType" name="userType"></select>
+                                        <select id="userType" name="userType" {{(Auth::user() &&  Auth::user()->userType == 1 ? '' : 'disabled readonly')}}></select>
                                         @error('userType') 
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror

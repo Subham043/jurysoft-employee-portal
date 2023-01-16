@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <form id="countryForm" method="post" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_picture_save' : 'subadmin_picture_save_hr', $user->id)}}" enctype="multipart/form-data">
+                <form id="countryForm" method="post" action="{{route('subadmin_picture_save', $user->id)}}" enctype="multipart/form-data">
                 @csrf
                     <div class="card">
                         <div class="card-header align-items-center d-flex">

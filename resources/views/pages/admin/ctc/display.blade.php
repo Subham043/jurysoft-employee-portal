@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-sm">
                                 <div class="d-flex justify-content-sm-end">
-                                    <a href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'ctc_edit' : 'ctc_edit_hr', [$user->id, $country->id])}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"><i class="ri-edit-line align-bottom me-1"></i> Edit</a>
+                                    <a href="{{route('ctc_edit', [$user->id, $country->id])}}" type="button" class="btn btn-success add-btn me-2" id="create-btn"><i class="ri-edit-line align-bottom me-1"></i> Edit</a>
                                     @if(Auth::user() &&  Auth::user()->userType == 1)
                                     <button onclick="deleteHandler('{{route('ctc_delete', [$user->id, $country->id])}}')" type="button" class="btn btn-danger add-btn" id="create-btn"><i class="ri-delete-bin-line align-bottom me-1"></i> Delete</button>
                                     @endif

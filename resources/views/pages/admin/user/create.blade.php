@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <form id="countryForm" method="post" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_store' : 'subadmin_store_hr')}}" enctype="multipart/form-data">
+                <form id="countryForm" method="post" action="{{route('subadmin_store')}}" enctype="multipart/form-data">
                 @csrf
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
@@ -91,7 +91,7 @@
                                     <div class="col-xxl-4 col-md-4">
                                         <div>
                                             <label for="userType" class="form-label">User Type</label>
-                                            <select id="userType" name="userType"></select>
+                                            <select id="userType" name="userType" {{(Auth::user() &&  Auth::user()->userType == 1 ? '' : 'disabled readonly')}}></select>
                                             @error('userType') 
                                                 <div class="invalid-message">{{ $message }}</div>
                                             @enderror
@@ -620,14 +620,20 @@ const choices = new Choices('#userType', {
             {
                 value: 'Select the user type',
                 label: 'Select the user type',
+                @if(Auth::user() &&  Auth::user()->userType == 1)
                 selected: {{empty(old('userType')) ? 'true' : 'false'}},
+                @endif
                 disabled: true,
             },
         @foreach($common['user_type'] as $key => $val)
             {
                 value: '{{$key}}',
                 label: '{{$val}}',
+                @if(Auth::user() &&  Auth::user()->userType == 1)
                 selected: {{!empty(old('userType')) && old('userType')==$key ? 'true' : 'false'}},
+                @else
+                selected: {{2==$key ? 'true' : 'false'}}
+                @endif
             },
         @endforeach
     ],

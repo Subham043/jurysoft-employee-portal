@@ -73,12 +73,12 @@
                             </li> <!-- end Dashboard Menu -->
                             @endif
                             <li class="nav-item">
-                                <a class="nav-link menu-link {{strpos(url()->current(),'employee') !== false ? 'active' : ''}}" href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_view' : (Auth::user()->userType == 3 ? 'subadmin_view_hr' : 'subadmin_detail'))}}">
+                                <a class="nav-link menu-link {{strpos(url()->current(),'employee') !== false ? 'active' : ''}}" href="{{route(Auth::user() &&  Auth::user()->userType == 1 || Auth::user()->userType == 3 ? 'subadmin_view' : 'subadmin_detail')}}">
                                     <i class="ri-admin-fill"></i> <span data-key="t-widgets">Employee</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link menu-link {{strpos(url()->current(),'payslip') !== false ? 'active' : ''}}" href="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_view' : (Auth::user()->userType == 3 ? 'payslip_view_hr' : 'payslip_view_user'))}}">
+                                <a class="nav-link menu-link {{strpos(url()->current(),'payslip') !== false ? 'active' : ''}}" href="{{route(Auth::user() &&  Auth::user()->userType == 1 || Auth::user()->userType == 3 ? 'payslip_view' : 'payslip_view_user')}}">
                                     <i class="ri-file-list-3-fill"></i> <span data-key="t-widgets">Payslip</span>
                                 </a>
                             </li>

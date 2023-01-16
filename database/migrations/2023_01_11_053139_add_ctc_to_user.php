@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('jurysoft_id')->nullable();
-            $table->string('main_gross_salary')->nullable();
         });
     }
 
