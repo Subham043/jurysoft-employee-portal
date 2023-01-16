@@ -50,7 +50,7 @@ class PayslipExport implements FromCollection,WithHeadings,WithMapping
              $payslip->paid_leave_taken,
              $payslip->unpaid_leave_taken,
              $payslip->worked_days,
-             $payslip->User ? $payslip->User->main_gross_salary : '',
+             $payslip->main_gross_salary,
              $payslip->gross_salary,
              $payslip->basic_salary,
              $payslip->hra_amount,

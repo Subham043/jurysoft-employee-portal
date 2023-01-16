@@ -65,7 +65,7 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
                                             <p class="mb-2 text-uppercase fw-medium fs-13">Employee :</p>
-                                            <h5 class="fs-15 mb-0">{{$item->user ? $country->user->full_name : ''}}~{{$item->user ? $country->user->jurysoft_id : ''}}</h5>
+                                            <h5 class="fs-15 mb-0">{{$country->user ? $country->user->full_name : ''}}~{{$country->user ? $country->user->jurysoft_id : ''}}</h5>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
@@ -132,7 +132,7 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
                                             <p class="mb-2 text-uppercase fw-medium fs-13">Main Gross Salary :</p>
-                                            <h5 class="fs-15 mb-0">Rs. {{$country->user ? country->user->main_gross_salary : 0}}</h5>
+                                            <h5 class="fs-15 mb-0">Rs. {{$country->main_gross_salary}}</h5>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6">
@@ -324,7 +324,7 @@
   let medical_allowance = {{$medical_allowance ? (int)$medical_allowance->amount : 0}};
   let conveyance_allowance = {{$conveyance_allowance ? (int)$conveyance_allowance->amount : 0}};
 
-  let main_gross_salary = {{$country->user && $country->user->main_gross_salary ? (int)$country->user->main_gross_salary : 0}};
+  let main_gross_salary = {{$country->main_gross_salary ? (int)$country->main_gross_salary : 0}};
   let basic_salary_monthly = 0;
   let basic_salary_yearly = 0;
   let hra_monthly = 0;

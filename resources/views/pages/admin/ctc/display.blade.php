@@ -67,7 +67,7 @@
                                     @if($ctc)
                                     <div class="col-lg-3 col-sm-6">
                                         <div>
-                                            <p class="mb-2 text-uppercase fw-medium fs-13">Previous CTC Termination Month & Year :</p>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">CTC Termination Month & Year :</p>
                                             <h5 class="fs-15 mb-0">{{$country->month_year_formatted}}</h5>
                                         </div>
                                     </div>

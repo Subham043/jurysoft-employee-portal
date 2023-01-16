@@ -30,7 +30,7 @@ class Payslip extends Model
     }
 
     public function main_gross_salary(){
-        return (int)$this->User->main_gross_salary;
+        return (int)$this->main_gross_salary;
     }
     
     public function gross_salary(){

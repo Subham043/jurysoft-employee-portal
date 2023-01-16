@@ -14,7 +14,7 @@ class Ctc extends Model
     use HasFactory;
 
     protected $table = 'ctcs';
-    protected $appends = ['month_year_formatted'];
+    protected $appends = ['month_year_formatted', 'month_year_unformatted'];
 
     public function User()
     {
@@ -25,6 +25,13 @@ class Ctc extends Model
     {
         return new Attribute(
             get: fn () => Carbon::parse($this->month_year)->format('M, Y'),
+        );
+    }
+    
+    protected function monthYearUnformatted(): Attribute
+    {
+        return new Attribute(
+            get: fn () => Carbon::parse($this->month_year)->format('Y-m'),
         );
     }
 

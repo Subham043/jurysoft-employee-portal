@@ -45,6 +45,7 @@ class PayslipController extends Controller
         $rules = [
             'user_id' => ['required','regex:/^[0-9]*$/'],
             'month_year' => ['required','regex:/^[0-9\-]*$/'],
+            'main_gross_salary' => ['required','regex:/^[0-9\-]*$/'],
             'total_days_of_month' => ['required','regex:/^[0-9]*$/'],
             'working_days_of_month' => ['required','regex:/^[0-9]*$/'],
             'paid_leave_taken' => ['required','regex:/^[0-9]*$/'],
@@ -66,10 +67,13 @@ class PayslipController extends Controller
             'unpaid_leave_taken.regex' => 'Please enter the valid unpaid leave taken !',
             'worked_days.required' => 'Please enter the worked days !',
             'worked_days.regex' => 'Please enter the valid worked days !',
+            'main_gross_salary.required' => 'Please enter the main gross salary !',
+            'main_gross_salary.regex' => 'Please enter the valid main gross salary !',
         ];
         $validator = $req->validate($rules,$messages);
 
         $user = new Payslip;
+        $user->main_gross_salary = $req->main_gross_salary;
         $user->month_year = $req->month_year;
         $user->user_id = $req->user_id;
         $user->total_days_of_month = $req->total_days_of_month;
@@ -107,6 +111,7 @@ class PayslipController extends Controller
             'paid_leave_taken' => ['required','regex:/^[0-9]*$/'],
             'unpaid_leave_taken' => ['required','regex:/^[0-9]*$/'],
             'worked_days' => ['required','regex:/^[0-9]*$/'],
+            'month_year' => ['required','regex:/^[0-9\-]*$/'],
         ];
         $messages = [
             'month_year.required' => 'Please enter the month & year !',
@@ -123,10 +128,13 @@ class PayslipController extends Controller
             'unpaid_leave_taken.regex' => 'Please enter the valid unpaid leave taken !',
             'worked_days.required' => 'Please enter the worked days !',
             'worked_days.regex' => 'Please enter the valid worked days !',
+            'main_gross_salary.required' => 'Please enter the main gross salary !',
+            'main_gross_salary.regex' => 'Please enter the valid main gross salary !',
         ];
         $validator = $req->validate($rules,$messages);
 
         $user->month_year = $req->month_year;
+        $user->main_gross_salary = $req->main_gross_salary;
         $user->user_id = $req->user_id;
         $user->total_days_of_month = $req->total_days_of_month;
         $user->working_days_of_month = $req->working_days_of_month;

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('ctcs', function (Blueprint $table) {
             $table->id();
             $table->string('ctc');
-            $table->string('month_year')->nullable();
+            $table->date('month_year', $precision = 0)->nullable();
             $table->bigInteger('user_id');
             $table->timestamps();
         });

@@ -59,7 +59,7 @@
                                         <tr>
                                             <th class="sort" data-sort="customer_name">ID</th>
                                             <th class="sort" data-sort="customer_name">Main Gross Salary</th>
-                                            <th class="sort" data-sort="customer_name">Previous CTC Termination Month & Year</th>
+                                            <th class="sort" data-sort="customer_name">CTC Termination Month & Year</th>
                                             <th class="sort" data-sort="date">Created Date</th>
                                             <th class="sort" data-sort="action">Action</th>
                                             </tr>
@@ -70,7 +70,7 @@
                                         <tr>
                                             <td class="customer_name">{{$v->id}}</td>
                                             <td class="customer_name">{{$v->ctc}}</td>
-                                            <td class="customer_name">@if( ($country->total()-1)==$k &&  $v->month_year){{$v->month_year_formatted}}@endif</td>
+                                            <td class="customer_name">@if( ($country->total()-1)>=$k &&  $v->month_year){{$v->month_year_formatted}}@else <span class="badge badge-soft-success text-uppercase">Active</span> @endif</td>
                                             <td class="date">{{$v->created_at}}</td>
                                             <td>
                                                 <div class="d-flex gap-2">

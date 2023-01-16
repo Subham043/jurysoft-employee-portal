@@ -56,7 +56,7 @@
                                 <div class="col-xxl-6 col-md-6">
                                     <div>
                                         <label for="month_year" class="form-label">Previous CTC Termination Month & Year</label>
-                                        <input type="month" class="form-control" name="month_year" id="month_year" oninput="payslip_month_year_change()" value="{{old('month_year')}}">
+                                        <input type="month" class="form-control" name="month_year" id="month_year" value="{{old('month_year')}}">
                                         @error('month_year') 
                                             <div class="invalid-message">{{ $message }}</div>
                                         @enderror

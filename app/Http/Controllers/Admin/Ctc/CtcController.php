@@ -15,6 +15,7 @@ use App\Exports\CtcExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class CtcController extends Controller
 {
@@ -35,6 +36,8 @@ class CtcController extends Controller
                 $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
             }elseif($ctc_count>1){
                 $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->offset(1)->limit(1)->firstOrFail();
+            }else{
+                $ctc = null;
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -59,6 +62,8 @@ class CtcController extends Controller
                 $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
             }elseif($ctc_count>1){
                 $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->offset(1)->limit(1)->firstOrFail();
+            }else{
+                $ctc = null;
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -80,16 +85,32 @@ class CtcController extends Controller
         }
 
         $validator = $req->validate($rules,$messages);
-        
-        if($ctc){
-            $ctc->month_year = $req->month_year;
-            $ctc->save();
-        }
 
         $country = new Ctc;
         $country->ctc = $req->main_gross_salary;
         $country->user_id = $user_id;
         $result = $country->save();
+
+        try {
+            //code...
+            $ctc_count = Ctc::where('user_id', $user_id)->count();
+            if($ctc_count==1){
+                $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
+            }elseif($ctc_count>1){
+                $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->offset(1)->limit(1)->firstOrFail();
+            }else{
+                $ctc = null;
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            $ctc = null;
+        }
+
+        if($ctc){
+            $ctc->month_year = Carbon::create($req->month_year)->lastOfMonth()->format('Y-m-d');
+            $ctc->save();
+        }
+
         if($result){
             return redirect()->intended(route('ctc_view', $user_id))->with('success_status', 'Data Stored successfully.');
         }else{
@@ -110,6 +131,8 @@ class CtcController extends Controller
                 if($ctc->id==$id){
                     $ctc = null;
                 }
+            }else{
+                $ctc = null;
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -137,6 +160,8 @@ class CtcController extends Controller
                 if($ctc->id==$id){
                     $ctc = null;
                 }
+            }else{
+                $ctc = null;
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -158,15 +183,34 @@ class CtcController extends Controller
         }
 
         $validator = $req->validate($rules,$messages);
-
-        if($ctc){
-            $ctc->month_year = $req->month_year;
-            $ctc->save();
-        }
         
         $country->ctc = $req->main_gross_salary;
         $country->user_id = $user_id;
         $result = $country->save();
+
+        try {
+            //code...
+            $ctc_count = Ctc::where('user_id', $user_id)->count();
+            if($ctc_count==1){
+                $ctc = Ctc::where('user_id', $user_id)->where('id', '<>', $id)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
+            }elseif($ctc_count>1){
+                $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->offset(1)->limit(1)->firstOrFail();
+                if($ctc->id==$id){
+                    $ctc = null;
+                }
+            }else{
+                $ctc = null;
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            $ctc = null;
+        }
+
+        if($ctc){
+            $ctc->month_year = Carbon::create($req->month_year)->lastOfMonth()->format('Y-m-d');
+            $ctc->save();
+        }
+
         if($result){
             return redirect()->intended(route('ctc_edit',[$user_id, $country->id]))->with('success_status', 'Data Updated successfully.');
         }else{
@@ -207,6 +251,8 @@ class CtcController extends Controller
                 if($ctc->id==$id){
                     $ctc = null;
                 }
+            }else{
+                $ctc = null;
             }
         } catch (\Throwable $th) {
             //throw $th;

@@ -508,6 +508,7 @@ validation
     const days = new Date(myArray[0], myArray[1], 0).getDate();
     total_days_of_month = days;
     document.getElementById('total_days_of_month').value = days;
+    user_id_change()
     main_change()
   }
 
@@ -574,6 +575,7 @@ async function user_id_change(){
     try {
         var formData = new FormData();
         formData.append('user_id',document.getElementById('user_id').value)
+        formData.append('month_year',document.getElementById('month_year').value)
         const response = await axios.post('{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'subadmin_json' : 'subadmin_json_hr')}}', formData)
         document.getElementById('main_gross_salary').value = response.data.employee_main_gross_salary
         main_gross_salary = response.data.employee_main_gross_salary
@@ -581,6 +583,9 @@ async function user_id_change(){
     }catch (error){
         if(error?.response?.data?.form_error?.user_id){
             errorToast(error?.response?.data?.form_error?.user_id[0])
+        }
+        if(error?.response?.data?.form_error?.month_year){
+            errorToast(error?.response?.data?.form_error?.month_year[0])
         }
         if(error?.response?.data?.message){
             errorToast(error?.response?.data?.message)

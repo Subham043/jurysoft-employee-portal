@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('payslips', function (Blueprint $table) {
             $table->id();
+            $table->string('main_gross_salary');
             $table->string('month_year');
             $table->string('total_days_of_month');
             $table->string('working_days_of_month');

@@ -24,10 +24,13 @@ use App\Models\EmployeeEmergencyDetail;
 use App\Models\EmployeeEmploymentDetail;
 use App\Models\EmployeeJobDetail;
 use App\Models\EmployeePersonalDetail;
+use App\Models\Ctc;
 use App\Exports\UserExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use DB;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -504,10 +507,13 @@ class UserController extends Controller
     public function json(Request $req) {
         $rules = [
             'user_id' => ['required','regex:/^[0-9]*$/'],
+            'month_year' => ['required','required','regex:/^[0-9\-]*$/'],
         ];
         $messages = [
             'user_id.required' => 'Please enter the employee id !',
             'user_id.regex' => 'Please enter the valid employee id !',
+            'month_year.required' => 'Please enter the month & year !',
+            'month_year.regex' => 'Please enter the valid month & year !',
         ];
         $validator = Validator::make($req->all(), $rules, $messages);
         if($validator->fails()){
@@ -517,11 +523,59 @@ class UserController extends Controller
         try {
             //code...
             $user = User::findOrFail($req->user_id);
-            return response()->json(["employee_main_gross_salary"=>(int)$user->main_gross_salary], 200);
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json(["message"=>"employee not found"], 400);
         }
+
+        try {
+            //code...
+            $ctc_count = Ctc::where('user_id', $req->user_id)->count();
+            if($ctc_count==1){
+                $ctc = Ctc::where('user_id', $req->user_id)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
+                return response()->json(["employee_main_gross_salary"=>(int)$ctc->ctc], 200);
+            }elseif($ctc_count>1 && $ctc_count<3){
+                $ctc = Ctc::where('user_id', $req->user_id)->where('month_year','>=',$req->month_year.'-01')->orderBy('month_year', 'DESC')->limit(1)->first();
+                if(!$ctc){
+                    $ctc = Ctc::where('user_id', $req->user_id)->where('month_year',null)->orderBy('id', 'DESC')->limit(1)->first();
+                }
+                return response()->json(["employee_main_gross_salary"=>(int)$ctc->ctc], 200);
+            }elseif($ctc_count>=3){
+                $ctc = Ctc::where('user_id', $req->user_id)->orderBy('month_year', 'DESC')->get();
+                $ctc_index = null;
+                $test = true;
+                $date1 = Carbon::create($req->month_year)->lastOfMonth()->format('Y-m-d');
+                foreach ($ctc as $key => $value) {
+                    # code...
+                    if($value->month_year===null && $ctc_index===null && count($ctc)-1==$key ){
+                        $ctc_index = $key;
+                        return response()->json(["employee_main_gross_salary"=>(int)$ctc[$ctc_index]->ctc], 200);
+                    }elseif($value->month_year!=null){
+                        $date2 = Carbon::create($value->month_year)->format('Y-m-d');
+                        if($date1<=$date2){
+                            $ctc_index = $key;
+                            continue;
+                        }else{
+                            $test = false;
+                            continue;
+                        }
+                    }
+                }
+                return response()->json(["employee_main_gross_salary"=>(int)$ctc[$ctc_index]->ctc], 200);
+            }else{
+                $ctc = null;
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            $ctc = null;
+            return $th;
+            return response()->json(["message"=>"main gross salary not found! Kindly add ctc for the selected employee.", 'err'=>$th], 400);
+        }
+        if(!$ctc){
+            return response()->json(["message"=>"main gross salary not found! Kindly add ctc for the selected employee."], 400);
+        }
+
+        
     }
 
     public function detail() {
