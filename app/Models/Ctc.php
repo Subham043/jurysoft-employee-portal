@@ -24,7 +24,7 @@ class Ctc extends Model
     protected function monthYearFormatted(): Attribute
     {
         return new Attribute(
-            get: fn () => Carbon::parse($this->month_year)->format('M, Y'),
+            get: fn () => $this->month_year ? Carbon::parse($this->month_year)->format('M, Y') : null,
         );
     }
     

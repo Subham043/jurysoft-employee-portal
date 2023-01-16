@@ -229,11 +229,11 @@ class CtcController extends Controller
         $user = User::findOrFail($user_id);
         if ($request->has('search')) {
             $search = $request->input('search');
-            $country = Ctc::with('User')->where(function ($query) use ($search) {
+            $country = Ctc::with('User')->where('user_id', $user_id)->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%');
             })->paginate(10);
         }else{
-            $country = Ctc::with('User')->orderBy('id', 'DESC')->paginate(10);
+            $country = Ctc::with('User')->where('user_id', $user_id)->orderBy('id', 'DESC')->paginate(10);
         }
         return view('pages.admin.ctc.list')->with('country', $country)->with('user', $user);
     }
@@ -269,7 +269,8 @@ class CtcController extends Controller
     }
 
     public function excel($user_id){
-        return Excel::download(new CtcExport, 'ctc.xlsx');
+        $user = User::findOrFail($user_id);
+        return Excel::download(new CtcExport($user_id), 'ctc.xlsx');
     }
 
     protected function allowance($id){
