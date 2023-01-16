@@ -44,7 +44,13 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-sm">
+                                <div class="col-sm d-flex justify-content-sm-end">
+                                    <div class="col-sm-3">
+                                        <form class="d-flex align-items-center" id="filter_form"  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_view' : (Auth::user() &&  Auth::user()->userType == 3 ? 'payslip_view_hr' : 'payslip_view_user'))}}">
+                                            <label class="col-sm-3 m-0 p-0">Filter : </label>
+                                            <input type="month" class="form-control" name="month_year" id="month_year" onchange="month_year_change()" value="@if(app('request')->has('month_year')){{app('request')->input('month_year')}}@endif">
+                                        </form>
+                                    </div>
                                     <form  method="get" action="{{route(Auth::user() &&  Auth::user()->userType == 1 ? 'payslip_view' : (Auth::user() &&  Auth::user()->userType == 3 ? 'payslip_view_hr' : 'payslip_view_user'))}}">
                                         <div class="d-flex justify-content-sm-end">
                                             <div class="search-box ms-2">
@@ -187,6 +193,10 @@
                 console.info('Closed | closedBy: ' + closedBy);
             }
         });
+    }
+    
+    function month_year_change(){
+        document.getElementById('filter_form').submit();
     }
 </script>
 

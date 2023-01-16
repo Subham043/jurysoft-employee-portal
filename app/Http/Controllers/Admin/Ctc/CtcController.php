@@ -232,6 +232,11 @@ class CtcController extends Controller
             $country = Ctc::with('User')->where('user_id', $user_id)->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%');
             })->paginate(10);
+        }elseif ($request->has('month_year')) {
+            $month_year = $request->input('month_year');
+            $country = Ctc::with('User')->where('user_id', $user_id)->where(function ($query) use ($month_year) {
+                $query->where('month_year', Carbon::create($month_year)->lastOfMonth()->format('Y-m-d'));
+            })->paginate(10);
         }else{
             $country = Ctc::with('User')->where('user_id', $user_id)->orderBy('id', 'DESC')->paginate(10);
         }

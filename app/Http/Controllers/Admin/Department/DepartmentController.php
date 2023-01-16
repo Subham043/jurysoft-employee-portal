@@ -84,7 +84,7 @@ class DepartmentController extends Controller
             $search = $request->input('search');
             $country = Department::where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%');
-            })->paginate(10);
+            })->orderBy('id', 'DESC')->paginate(10);
         }else{
             $country = Department::orderBy('id', 'DESC')->paginate(10);
         }

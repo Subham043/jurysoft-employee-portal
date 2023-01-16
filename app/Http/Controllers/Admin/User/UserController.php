@@ -482,7 +482,7 @@ class UserController extends Controller
                       ->orWhere('jurysoft_id', 'like', '%' . $search . '%')
                       ->orWhere('email', 'like', '%' . $search . '%')
                       ->orWhere('phone', 'like', '%' . $search . '%');
-            })->paginate(10);
+            })->orderBy('id', 'DESC')->paginate(10);
         }else{
             $country = User::with(['EmployeePersonalDetail', 'EmployeeBankDetail', 'EmployeeEmergencyDetail', 'EmployeeEmploymentDetail', 'EmployeeJobDetail'])->orderBy('id', 'DESC')->paginate(10);
         }

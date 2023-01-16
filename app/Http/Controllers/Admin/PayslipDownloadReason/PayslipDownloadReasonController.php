@@ -84,7 +84,7 @@ class PayslipDownloadReasonController extends Controller
             $search = $request->input('search');
             $country = PayslipDownloadReason::where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%');
-            })->paginate(10);
+            })->orderBy('id', 'DESC')->paginate(10);
         }else{
             $country = PayslipDownloadReason::orderBy('id', 'DESC')->paginate(10);
         }

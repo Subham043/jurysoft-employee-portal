@@ -84,7 +84,7 @@ class DesignationController extends Controller
             $search = $request->input('search');
             $country = Designation::where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%');
-            })->paginate(10);
+            })->orderBy('id', 'DESC')->paginate(10);
         }else{
             $country = Designation::orderBy('id', 'DESC')->paginate(10);
         }

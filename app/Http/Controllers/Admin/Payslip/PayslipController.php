@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Validator;
 use Pdf;
 use Uuid;
 use Storage;
+use Carbon\Carbon;
 
 class PayslipController extends Controller
 {
@@ -169,7 +170,12 @@ class PayslipController extends Controller
                 ->orWhere('phone', 'like', '%' . $search . '%')
                 ->orWhere('jurysoft_id', 'like', '%' . $search . '%')
                 ->orWhere('email', 'like', '%' . $search . '%');
-            })->paginate(10);
+            })->orderBy('id', 'DESC')->paginate(10);
+        }elseif ($request->has('month_year')) {
+            $month_year = $request->input('month_year');
+            $country = Payslip::with(['User'])->where(function ($query) use ($month_year) {
+                $query->where('month_year', $month_year);
+            })->orderBy('id', 'DESC')->paginate(10);
         }else{
             $country = Payslip::with(['User'])->orderBy('id', 'DESC')->paginate(10);
         }
@@ -226,7 +232,12 @@ class PayslipController extends Controller
                 ->orWhere('phone', 'like', '%' . $search . '%')
                 ->orWhere('jurysoft_id', 'like', '%' . $search . '%')
                 ->orWhere('email', 'like', '%' . $search . '%');
-            })->paginate(10);
+            })->orderBy('id', 'DESC')->paginate(10);
+        }elseif ($request->has('month_year')) {
+            $month_year = $request->input('month_year');
+            $country = Payslip::with(['User'])->where('user_id', Auth::user()->id)->where(function ($query) use ($month_year) {
+                $query->where('month_year', $month_year);
+            })->orderBy('id', 'DESC')->paginate(10);
         }else{
             $country = Payslip::with(['User'])->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->paginate(10);
         }
@@ -297,7 +308,12 @@ class PayslipController extends Controller
                 ->orWhere('phone', 'like', '%' . $search . '%')
                 ->orWhere('jurysoft_id', 'like', '%' . $search . '%')
                 ->orWhere('email', 'like', '%' . $search . '%');
-            })->paginate(10);
+            })->orderBy('id', 'DESC')->paginate(10);
+        }elseif ($request->has('month_year')) {
+            $month_year = $request->input('month_year');
+            $country = PayslipDownload::with(['User', 'Payslip'])->orWhereHas('Payslip', function ($query) use ($month_year) {
+                $query->where('month_year', $month_year);
+            })->orderBy('id', 'DESC')->paginate(10);
         }else{
             $country = PayslipDownload::with(['User', 'Payslip'])->orderBy('id', 'DESC')->paginate(10);
         }
