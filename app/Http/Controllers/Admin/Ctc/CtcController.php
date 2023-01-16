@@ -34,19 +34,25 @@ class CtcController extends Controller
             $ctc_count = Ctc::where('user_id', $user_id)->count();
             if($ctc_count==1){
                 $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
+                $min_month = null;
             }elseif($ctc_count>1){
                 $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->offset(1)->limit(1)->firstOrFail();
+                $min_month = Carbon::parse($ctc->month_year)->format('Y-m');
             }else{
                 $ctc = null;
+                $min_month = null;
             }
         } catch (\Throwable $th) {
             //throw $th;
             $ctc = null;
+            $min_month = null;
         }
 
         return view('pages.admin.ctc.create')->with([
             'user' => $user,
             'ctc' => $ctc,
+            'min_month' => $min_month,
+            'max_month' => Carbon::now()->format('Y-m'),
             "medical_allowance" => $this->allowance(1),
             "conveyance_allowance" => $this->allowance(2),
             "professional_tax" => $this->allowance(3),
@@ -123,22 +129,30 @@ class CtcController extends Controller
             //code...
             $ctc_count = Ctc::where('user_id', $user_id)->count();
             if($ctc_count==1){
-                $ctc = Ctc::where('user_id', $user_id)->where('id', '<>', $id)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
+                $ctc =null;
+                $min_month = Carbon::now()->format('Y-m');
+                $max_month = null;
             }elseif($ctc_count>1){
-                $ctc = Ctc::where('user_id', $user_id)->orderBy('id', 'DESC')->offset(1)->limit(1)->firstOrFail();
-                if($ctc->id==$id){
-                    $ctc = null;
-                }
+                $ctc = Ctc::where('user_id', $user_id)->where('id', '<', $id)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
+                $max_month = Carbon::parse($country->month_year)->format('Y-m');
+                $min_month = Carbon::parse($ctc->month_year)->format('Y-m');
             }else{
                 $ctc = null;
+                $min_month = Carbon::now()->format('Y-m');
+                $max_month = null;
             }
         } catch (\Throwable $th) {
             //throw $th;
             $ctc = null;
+            $min_month = Carbon::now()->format('Y-m');
+            $max_month = null;
         }
+        // return $ctc;
         return view('pages.admin.ctc.edit')->with('country',$country)->with([
             'user' => $user,
             'ctc' => $ctc,
+            'min_month' => $min_month,
+            'max_month' => $max_month,
             "medical_allowance" => $this->allowance(1),
             "conveyance_allowance" => $this->allowance(2),
             "professional_tax" => $this->allowance(3),
