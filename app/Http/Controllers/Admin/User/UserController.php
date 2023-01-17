@@ -530,6 +530,12 @@ class UserController extends Controller
             return response()->json(["message"=>"employee not found"], 400);
         }
 
+        if($user->EmployeeJobDetail){
+            $min_month = Carbon::parse($user->EmployeeJobDetail->date_of_join)->format('Y-m');
+        }else{
+            $min_month = null;
+        }
+
         $allow_payslip_creation = true;
         $allow_arrears = false;
         $days_in_arrears_month = 0;
@@ -555,13 +561,13 @@ class UserController extends Controller
             $ctc_count = Ctc::where('user_id', $req->user_id)->where('status', 1)->count();
             if($ctc_count==1){
                 $ctc = Ctc::where('user_id', $req->user_id)->where('status', 1)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
-                return response()->json(["employee_main_gross_salary"=>(int)$ctc->ctc, "allow_payslip_creation" => $allow_payslip_creation, "allow_arrears" => $allow_arrears, "days_in_arrears_month" => $days_in_arrears_month], 200);
+                return response()->json(["employee_main_gross_salary"=>(int)$ctc->ctc, "allow_payslip_creation" => $allow_payslip_creation, "allow_arrears" => $allow_arrears, "days_in_arrears_month" => $days_in_arrears_month, "min_month" => $min_month], 200);
             }elseif($ctc_count>1 && $ctc_count<3){
                 $ctc = Ctc::where('user_id', $req->user_id)->where('status', 1)->where('month_year','>=',$req->month_year.'-01')->orderBy('month_year', 'DESC')->limit(1)->first();
                 if(!$ctc){
                     $ctc = Ctc::where('user_id', $req->user_id)->where('status', 1)->where('month_year',null)->orderBy('id', 'DESC')->limit(1)->first();
                 }
-                return response()->json(["employee_main_gross_salary"=>(int)$ctc->ctc, "allow_payslip_creation" => $allow_payslip_creation, "allow_arrears" => $allow_arrears, "days_in_arrears_month" => $days_in_arrears_month], 200);
+                return response()->json(["employee_main_gross_salary"=>(int)$ctc->ctc, "allow_payslip_creation" => $allow_payslip_creation, "allow_arrears" => $allow_arrears, "days_in_arrears_month" => $days_in_arrears_month, "min_month" => $min_month], 200);
             }elseif($ctc_count>=3){
                 $ctc = Ctc::where('user_id', $req->user_id)->where('status', 1)->orderBy('month_year', 'DESC')->get();
                 $ctc_index = null;
@@ -571,7 +577,7 @@ class UserController extends Controller
                     # code...
                     if($value->month_year===null && $ctc_index===null && count($ctc)-1==$key ){
                         $ctc_index = $key;
-                        return response()->json(["employee_main_gross_salary"=>(int)$ctc[$ctc_index]->ctc, "allow_payslip_creation" => $allow_payslip_creation, "allow_arrears" => $allow_arrears, "days_in_arrears_month" => $days_in_arrears_month], 200);
+                        return response()->json(["employee_main_gross_salary"=>(int)$ctc[$ctc_index]->ctc, "allow_payslip_creation" => $allow_payslip_creation, "allow_arrears" => $allow_arrears, "days_in_arrears_month" => $days_in_arrears_month, "min_month" => $min_month], 200);
                     }elseif($value->month_year!=null){
                         $date2 = Carbon::create($value->month_year)->format('Y-m-d');
                         if($date1<=$date2){
@@ -583,7 +589,7 @@ class UserController extends Controller
                         }
                     }
                 }
-                return response()->json(["employee_main_gross_salary"=>(int)$ctc[$ctc_index]->ctc, "allow_payslip_creation" => $allow_payslip_creation, "allow_arrears" => $allow_arrears, "days_in_arrears_month" => $days_in_arrears_month], 200);
+                return response()->json(["employee_main_gross_salary"=>(int)$ctc[$ctc_index]->ctc, "allow_payslip_creation" => $allow_payslip_creation, "allow_arrears" => $allow_arrears, "days_in_arrears_month" => $days_in_arrears_month, "min_month" => $min_month], 200);
             }else{
                 $ctc = null;
             }

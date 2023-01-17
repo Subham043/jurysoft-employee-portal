@@ -39,6 +39,7 @@ class PayslipController extends Controller
             "medical_allowance" => $this->allowance(1),
             "conveyance_allowance" => $this->allowance(2),
             "professional_tax" => $this->allowance(3),
+            'max_month' => Carbon::now()->format('Y-m'),
         ]);
     }
 
@@ -136,6 +137,7 @@ class PayslipController extends Controller
             "medical_allowance" => $this->allowance(1),
             "conveyance_allowance" => $this->allowance(2),
             "professional_tax" => $this->allowance(3),
+            'max_month' => Carbon::now()->format('Y-m'),
         ]);
     }
 

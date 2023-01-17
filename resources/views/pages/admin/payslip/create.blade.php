@@ -55,7 +55,7 @@
                                     <div class="col-xxl-4 col-md-4">
                                         <div>
                                             <label for="month_year" class="form-label">Payslip Month & Year</label>
-                                            <input type="month" class="form-control" name="month_year" id="month_year" oninput="payslip_month_year_change()" value="{{old('month_year')}}">
+                                            <input type="month" class="form-control" name="month_year" id="month_year" oninput="payslip_month_year_change()" value="{{old('month_year')}}"  max={{$max_month}}>
                                             @error('month_year') 
                                                 <div class="invalid-message">{{ $message }}</div>
                                             @enderror
