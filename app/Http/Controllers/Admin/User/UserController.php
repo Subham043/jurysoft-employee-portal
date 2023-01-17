@@ -532,18 +532,18 @@ class UserController extends Controller
 
         try {
             //code...
-            $ctc_count = Ctc::where('user_id', $req->user_id)->count();
+            $ctc_count = Ctc::where('user_id', $req->user_id)->where('status', 1)->count();
             if($ctc_count==1){
-                $ctc = Ctc::where('user_id', $req->user_id)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
+                $ctc = Ctc::where('user_id', $req->user_id)->where('status', 1)->orderBy('id', 'DESC')->limit(1)->firstOrFail();
                 return response()->json(["employee_main_gross_salary"=>(int)$ctc->ctc], 200);
             }elseif($ctc_count>1 && $ctc_count<3){
-                $ctc = Ctc::where('user_id', $req->user_id)->where('month_year','>=',$req->month_year.'-01')->orderBy('month_year', 'DESC')->limit(1)->first();
+                $ctc = Ctc::where('user_id', $req->user_id)->where('status', 1)->where('month_year','>=',$req->month_year.'-01')->orderBy('month_year', 'DESC')->limit(1)->first();
                 if(!$ctc){
-                    $ctc = Ctc::where('user_id', $req->user_id)->where('month_year',null)->orderBy('id', 'DESC')->limit(1)->first();
+                    $ctc = Ctc::where('user_id', $req->user_id)->where('status', 1)->where('month_year',null)->orderBy('id', 'DESC')->limit(1)->first();
                 }
                 return response()->json(["employee_main_gross_salary"=>(int)$ctc->ctc], 200);
             }elseif($ctc_count>=3){
-                $ctc = Ctc::where('user_id', $req->user_id)->orderBy('month_year', 'DESC')->get();
+                $ctc = Ctc::where('user_id', $req->user_id)->where('status', 1)->orderBy('month_year', 'DESC')->get();
                 $ctc_index = null;
                 $test = true;
                 $date1 = Carbon::create($req->month_year)->lastOfMonth()->format('Y-m-d');

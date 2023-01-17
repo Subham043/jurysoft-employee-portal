@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('ctc');
             $table->date('month_year', $precision = 0)->nullable();
+            $table->bigInteger('hr_id')->nullable();
             $table->bigInteger('user_id');
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

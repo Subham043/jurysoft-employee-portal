@@ -95,6 +95,10 @@ class CtcController extends Controller
         $country = new Ctc;
         $country->ctc = $req->main_gross_salary;
         $country->user_id = $user_id;
+        if(Auth::user() && Auth::user()->userType==3){
+            $country->hr_id = Auth::user()->id;
+            $country->status = 0;
+        }
         $result = $country->save();
 
         try {
@@ -186,6 +190,10 @@ class CtcController extends Controller
         
         $country->ctc = $req->main_gross_salary;
         $country->user_id = $user_id;
+        if(Auth::user() && Auth::user()->userType==3){
+            $country->hr_id = Auth::user()->id;
+            $country->status = 0;
+        }
         $result = $country->save();
 
         try {
@@ -223,6 +231,14 @@ class CtcController extends Controller
         $country = Ctc::findOrFail($id);
         $country->delete();
         return redirect()->intended(route('ctc_view', $user_id))->with('success_status', 'Data Deleted successfully.');
+    }
+    
+    public function approve($user_id, $id){
+        $user = User::findOrFail($user_id);
+        $country = Ctc::findOrFail($id);
+        $country->status = 1;
+        $country->save();
+        return redirect()->intended(route('ctc_view', $user_id))->with('success_status', 'Data Approved successfully.');
     }
 
     public function view(Request $request, $user_id) {

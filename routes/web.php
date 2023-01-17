@@ -96,6 +96,7 @@ Route::prefix('/')->middleware(['auth', 'blocked'])->group(function () {
         Route::middleware('admin')->group(function () {
             Route::get('/delete/{id}', [UserController::class, 'delete', 'as' => 'admin.subadmin.delete'])->name('subadmin_delete');
             Route::prefix('/ctc/{user_id}')->group(function () {
+                Route::get('/approve/{id}', [CtcController::class, 'approve', 'as' => 'admin.ctc.approve'])->name('ctc_approve');
                 Route::get('/delete/{id}', [CtcController::class, 'delete', 'as' => 'admin.ctc.delete'])->name('ctc_delete');
             });
         });

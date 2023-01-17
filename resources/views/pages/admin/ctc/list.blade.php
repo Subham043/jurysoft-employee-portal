@@ -76,7 +76,21 @@
                                         <tr>
                                             <td class="customer_name">{{$v->id}}</td>
                                             <td class="customer_name">{{$v->ctc}}</td>
-                                            <td class="customer_name">@if($country->total()==1) <span class="badge badge-soft-success text-uppercase">Active</span> @elseif(($country->total()-1)>=$k &&  $v->month_year){{$v->month_year_formatted}}@else <span class="badge badge-soft-success text-uppercase">Active</span> @endif</td>
+                                            @if($v->status==0)
+                                            <td class="customer_name">
+                                                <span class="badge badge-soft-warning text-uppercase">Approval Pending</span> 
+                                            </td>
+                                            @else 
+                                            <td class="customer_name">
+                                                @if($country->total()==1) 
+                                                <span class="badge badge-soft-success text-uppercase">Active</span> 
+                                                @elseif(($country->total()-1)>=$k &&  $v->month_year)
+                                                {{$v->month_year_formatted}}
+                                                @else 
+                                                <span class="badge badge-soft-success text-uppercase">Active</span> 
+                                                @endif
+                                            </td>
+                                            @endif
                                             <td class="date">{{$v->created_at}}</td>
                                             <td>
                                                 <div class="d-flex gap-2">
@@ -86,6 +100,11 @@
                                                     <div class="edit">
                                                         <a href="{{route('ctc_edit', [$user->id, $v->id])}}" style="background:yellow;color:black;border-color:yellow;" class="btn btn-sm btn-success edit-item-btn">Edit</a>
                                                     </div>
+                                                    @if(Auth::user() && Auth::user()->userType==1 && $v->status==0)
+                                                    <div class="edit">
+                                                        <a href="{{route('ctc_approve', [$user->id, $v->id])}}" class="btn btn-sm btn-success edit-item-btn">Approve</a>
+                                                    </div>
+                                                    @endif
                                                     @if(Auth::user() &&  Auth::user()->userType == 1)
                                                     <div class="remove">
                                                         <button class="btn btn-sm btn-danger remove-item-btn" style="background:red" onclick="deleteHandler('{{route('ctc_delete', [$user->id, $v->id])}}')">Delete</button>
