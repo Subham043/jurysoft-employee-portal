@@ -25,6 +25,8 @@ class Payslip extends Model
         'hra_amount_arrears', 
         'medical_allowance', 
         'conveyance_allowance', 
+        'medical_allowance_arrears', 
+        'conveyance_allowance_arrears',
         'special_allowance', 
         'special_allowance_arrears', 
         'total_gross', 
@@ -34,6 +36,7 @@ class Payslip extends Model
         'esi_employee', 
         'esi_employee_arrears', 
         'professional_tax', 
+        'professional_tax_arrears', 
         'deduction_amount', 
         'deduction_amount_arrears', 
         'net_salary',
@@ -69,7 +72,7 @@ class Payslip extends Model
     
     public function gross_salary_arrears(){
         if($this->allow_arrears==0){return 0;}
-        return round($this->main_gross_salary() - (($this->main_gross_salary()/(int)$this->working_days_of_month_arrears) * (int)$this->unpaid_leave_taken_arrears));
+        return round((($this->main_gross_salary()/(int)Carbon::create($this->month_year)->firstOfMonth()->subMonth()->daysInMonth) * ((int)$this->arrears_days())));
     }
     
     public function basic_salary(){
@@ -94,9 +97,19 @@ class Payslip extends Model
         return round(max(($this->gross_salary() - ($this->basic_salary() + $this->hra() + $this->allowance(1) + $this->allowance(2))), 0));
     }
     
+    public function medical_allowance_arrears(){
+        if($this->allow_arrears==0){return 0;}
+        return round(($this->allowance(1)/(int)Carbon::create($this->month_year)->firstOfMonth()->subMonth()->daysInMonth) * $this->arrears_days());
+    }
+    
+    public function conveyance_allowance_arrears(){
+        if($this->allow_arrears==0){return 0;}
+        return round(($this->allowance(2)/(int)Carbon::create($this->month_year)->firstOfMonth()->subMonth()->daysInMonth) * $this->arrears_days());
+    }
+    
     public function special_allowance_arrears(){
         if($this->allow_arrears==0){return 0;}
-        return round(max(($this->gross_salary_arrears() - ($this->basic_salary_arrears() + $this->hra_arrears() + $this->allowance(1) + $this->allowance(2))), 0));
+        return round(max(($this->gross_salary_arrears() - ($this->basic_salary_arrears() + $this->hra_arrears() + $this->medical_allowance_arrears() + $this->conveyance_allowance_arrears())), 0));
     }
     
     public function total_gross(){
@@ -130,13 +143,18 @@ class Payslip extends Model
         return round($this->main_gross_salary() >= 15000 ? $this->allowance(3) : 0);
     }
     
+    public function professional_tax_arrears(){
+        if($this->allow_arrears==0){return 0;}
+        return round($this->main_gross_salary() >= 15000 ? $this->allowance(3) : 0);
+    }
+    
     public function deduction(){
         return round($this->pf_employee() + $this->esi_employee() + $this->professional_tax());
     }
     
     public function deduction_arrears(){
         if($this->allow_arrears==0){return 0;}
-        return round($this->pf_employee_arrears() + $this->esi_employee_arrears() + $this->professional_tax());
+        return round($this->pf_employee_arrears() + $this->esi_employee_arrears() + $this->professional_tax_arrears());
     }
     
     public function net_salary(){
@@ -167,6 +185,22 @@ class Payslip extends Model
         
         return new Attribute(
             get: fn () => $this->gross_salary_arrears(),
+        );
+    }
+    
+    protected function medicalAllowanceArrears(): Attribute
+    {
+        
+        return new Attribute(
+            get: fn () => $this->medical_allowance_arrears(),
+        );
+    }
+    
+    protected function conveyanceAllowanceArrears(): Attribute
+    {
+        
+        return new Attribute(
+            get: fn () => $this->conveyance_allowance_arrears(),
         );
     }
     
@@ -295,6 +329,14 @@ class Payslip extends Model
         
         return new Attribute(
             get: fn () => $this->professional_tax(),
+        );
+    }
+    
+    protected function professionalTaxArrears(): Attribute
+    {
+        
+        return new Attribute(
+            get: fn () => $this->professional_tax_arrears(),
         );
     }
     

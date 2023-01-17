@@ -81,11 +81,10 @@ class PayslipController extends Controller
                 $d1 = Carbon::create($req->month_year)->firstOfMonth()->format('m-Y');
                 $d2 = Carbon::create($date_of_join)->format('m-Y');
                 $d3 = Carbon::create($date_of_join)->addMonth()->format('m-Y');
-                $d4 = Carbon::create($date_of_join)->addMonth()->addMonth()->format('m-Y');
-                if($d1==$d2 || $d1==$d3){
+                if($d1==$d2){
                     return redirect()->intended(route('payslip_create'))->with('error_status', 'You cannot create payslip for '.Carbon::create($req->month_year)->firstOfMonth()->format('M, Y').', as the employee had joined the company on '.Carbon::create($date_of_join)->format('d M, Y'));
                 }
-                if($d1==$d4){
+                if($d1==$d3){
                     $allow_arrears = true;
                 }
             }
@@ -180,11 +179,10 @@ class PayslipController extends Controller
                 $d1 = Carbon::create($req->month_year)->firstOfMonth()->format('m-Y');
                 $d2 = Carbon::create($date_of_join)->format('m-Y');
                 $d3 = Carbon::create($date_of_join)->addMonth()->format('m-Y');
-                $d4 = Carbon::create($date_of_join)->addMonth()->addMonth()->format('m-Y');
-                if($d1==$d2 || $d1==$d3){
+                if($d1==$d2){
                     return redirect()->intended(route('payslip_create'))->with('error_status', 'You cannot create payslip for '.Carbon::create($req->month_year)->firstOfMonth()->format('M, Y').', as the employee had joined the company on '.Carbon::create($date_of_join)->format('d M, Y'));
                 }
-                if($d1==$d4){
+                if($d1==$d3){
                     $allow_arrears = true;
                 }
             }

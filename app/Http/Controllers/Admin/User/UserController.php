@@ -545,11 +545,10 @@ class UserController extends Controller
                 $d1 = Carbon::create($req->month_year)->firstOfMonth()->format('m-Y');
                 $d2 = Carbon::create($date_of_join)->format('m-Y');
                 $d3 = Carbon::create($date_of_join)->addMonth()->format('m-Y');
-                $d4 = Carbon::create($date_of_join)->addMonth()->addMonth()->format('m-Y');
-                if($d1==$d2 || $d1==$d3){
+                if($d1==$d2){
                     $allow_payslip_creation = false;
                 }
-                if($d1==$d4){
+                if($d1==$d3){
                     $allow_arrears = true;
                     $days_in_arrears_month = Carbon::create($date_of_join)->daysInMonth - Carbon::create($date_of_join)->format('d');
                 }
