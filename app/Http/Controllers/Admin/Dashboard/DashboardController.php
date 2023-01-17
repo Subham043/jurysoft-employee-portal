@@ -8,11 +8,8 @@ use Auth;
 use Illuminate\Support\Facades\View;
 use App\Support\Types\UserType;
 use App\Models\User;
-use App\Models\Enquiry;
-use App\Models\ImageModel;
-use App\Models\AudioModel;
-use App\Models\DocumentModel;
-use App\Models\VideoModel;
+use App\Models\Payslip;
+use App\Models\PayslipDownload;
 
 class DashboardController extends Controller
 {
@@ -26,7 +23,14 @@ class DashboardController extends Controller
     }
 
     public function index(){
-        return view('pages.admin.dashboard.index')->with('user_count',User::count());
+        $user_count = User::count();
+        $payslip_count = Auth::user() && Auth::user()->userType==2 ? Payslip::where('user_id', Auth::user()->id)->count() : Payslip::count();
+        $payslip_download_count = Auth::user() && Auth::user()->userType==2 ? PayslipDownload::where('user_id', Auth::user()->id)->count() : PayslipDownload::count();
+        return view('pages.admin.dashboard.index')->with([
+            'user_count' => $user_count,
+            'payslip_count' => $payslip_count,
+            'payslip_download_count' => $payslip_download_count,
+        ]);
     }
 
 }

@@ -41,7 +41,7 @@
                                                         </span>
                                                     </div>
                                                     <div class="flex-grow-1 ms-3">
-                                                        <p class="text-uppercase fw-medium text-muted mb-0">TOTAL USERS</p>
+                                                        <p class="text-uppercase fw-medium text-muted mb-0">TOTAL EMPLOYEES</p>
                                                         <div class="d-flex align-items-center">
                                                             <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="{{$user_count}}">{{$user_count}}</span></h4>
                                                         </div>
@@ -62,9 +62,9 @@
                                                         </span>
                                                     </div>
                                                     <div class="flex-grow-1 overflow-hidden ms-3">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Enquiries</p>
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">TOTAL PAYSLIPS</p>
                                                         <div class="d-flex align-items-center">
-                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="20">20</span></h4>
+                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="{{$payslip_count}}">{{$payslip_count}}</span></h4>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -82,9 +82,9 @@
                                                         </span>
                                                     </div>
                                                     <div class="flex-grow-1 overflow-hidden ms-3">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Media Content</p>
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">TOTAL PAYSLIP DOWNLOADS</p>
                                                         <div class="d-flex align-items-center">
-                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="20">20</span></h4>
+                                                            <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value" data-target="{{$payslip_download_count}}">{{$payslip_download_count}}</span></h4>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,22 +96,6 @@
 
                                 </div><!-- end row -->
 
-                                <div class="row">
-                                    <div class="col-xl-12">
-                                        <div class="card">
-                                            <div class="card-header border-0 align-items-center d-flex">
-                                                <h4 class="card-title mb-0 flex-grow-1">Monthly Enquiries</h4>
-                                            </div><!-- end card header -->
-
-                                            
-                                            <div class="card-body p-0 pb-2">
-                                                <div>
-                                                    <div id="projects-overview-chart" data-colors='["--vz-primary", "--vz-warning", "--vz-success"]' class="apex-charts" dir="ltr"></div>
-                                                </div>
-                                            </div><!-- end card body -->
-                                        </div><!-- end card -->
-                                    </div><!-- end col -->
-                                </div><!-- end row -->
                             </div><!-- end col -->
 
                             
@@ -127,10 +111,5 @@
            
 
       @section('javascript')
-
-      <!-- apexcharts -->
-      <script src="{{ asset('admin/libs/apexcharts/apexcharts.min.js') }}"></script>
-      <!-- projects js -->
-      <script src="{{ asset('admin/js/pages/dashboard-projects.init.js') }}"></script>
 
       @stop
