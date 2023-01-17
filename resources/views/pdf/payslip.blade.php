@@ -188,7 +188,7 @@
                                     <tbody style="width:100%">
                                         <tr>
                                             <td style="width:60%;font-weight:bold;padding:8px 0;">Arrear Days</td>
-                                            <td style="width:40%;padding:8px 0;">0</td>
+                                            <td style="width:40%;padding:8px 0;">{{$payslip->arrears_days}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -244,40 +244,40 @@
                         <tr>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;">Basic</td>
                             <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->basic_salary}}.0</td>
-                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. 0.0</td>
-                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->basic_salary}}.0</td>
+                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->basic_salary_arrears}}.0</td>
+                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->basic_salary + $payslip->basic_salary_arrears}}.0</td>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;">ESIC</td>
                             <td style="padding:10px 5px;">Rs. {{$payslip->esi_employee}}.0</td>
                         </tr>
                         <tr>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;">House Rent Allowance.</td>
                             <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->hra_amount}}.0</td>
-                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. 0.0</td>
-                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->hra_amount}}.0</td>
+                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->hra_amount_arrears}}.0</td>
+                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->hra_amount + $payslip->hra_amount_arrears}}.0</td>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;">Group Insurance</td>
                             <td style="padding:10px 5px;">Rs. 0.0</td>
                         </tr>
                         <tr>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;">Conveyance Allowance</td>
                             <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->conveyance_allowance}}.0</td>
-                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. 0.0</td>
-                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->conveyance_allowance}}.0</td>
+                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->allow_arrears==1 ? $payslip->conveyance_allowance : 0}}.0</td>
+                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->conveyance_allowance * ($payslip->allow_arrears==1 ? 2 : 1)}}.0</td>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;">Profession Tax</td>
                             <td style="padding:10px 5px;">Rs. {{$payslip->professional_tax}}.0</td>
                         </tr>
                         <tr>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;">Medical Allowance</td>
                             <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->medical_allowance}}.0</td>
-                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. 0.0</td>
-                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->medical_allowance}}.0</td>
+                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->allow_arrears==1 ? $payslip->medical_allowance : 0}}.0</td>
+                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->medical_allowance * ($payslip->allow_arrears==1 ? 2 : 1)}}.0</td>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;">Income Tax</td>
                             <td style="padding:10px 5px;">Rs. 0.0</td>
                         </tr>
                         <tr>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;">Special Allowance</td>
                             <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->special_allowance}}.0</td>
-                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. 0.0</td>
-                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->special_allowance}}.0</td>
+                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->special_allowance_arrears}}.0</td>
+                            <td style="padding:10px 5px;border-right:2px solid black;">Rs. {{$payslip->special_allowance + $payslip->special_allowance_arrears}}.0</td>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;"></td>
                             <td style="padding:10px 5px;"></td>
                         </tr>
@@ -316,20 +316,20 @@
                         <tr>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;border-top:2px solid black;text-align:center;">Total</td>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;border-top:2px solid black;">Rs. {{$payslip->total_gross}}.0</td>
-                            <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;border-top:2px solid black;">Rs. 0.0</td>
-                            <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;border-top:2px solid black;">Rs. {{$payslip->total_gross}}.0</td>
+                            <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;border-top:2px solid black;">Rs. {{$payslip->total_gross_arrears}}.0</td>
+                            <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;border-top:2px solid black;">Rs. {{$payslip->total_gross + $payslip->total_gross_arrears}}.0</td>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;"></td>
                             <td style="padding:10px 5px;"></td>
                         </tr>
                         <tr>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;border-top:2px solid black;text-align:center;" colspan="3">Gross Salary (C)</td>
-                            <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;border-top:2px solid black;">Rs. {{$payslip->total_gross}}.0</td>
+                            <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;border-top:2px solid black;">Rs. {{$payslip->total_gross + $payslip->total_gross_arrears}}.0</td>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;border-top:2px solid black;">Total Deductions (D)</td>
                             <td style="font-weight:bold;padding:10px 5px;border-top:2px solid black;">Rs. {{$payslip->deduction_amount}}.0</td>
                         </tr>
                         <tr>
                             <td style="font-weight:bold;padding:10px 5px;border-right:2px solid black;border-top:2px solid black;text-align:center;" colspan="4">Net Pay (C-D)</td>
-                            <td style="font-weight:bold;padding:10px 5px;border-top:2px solid black;text-align:center;" colspan="2">Rs. {{$payslip->net_salary}}.0</td>
+                            <td style="font-weight:bold;padding:10px 5px;border-top:2px solid black;text-align:center;" colspan="2">Rs. {{$payslip->net_salary + $payslip->net_salary_arrears}}.0</td>
                         </tr>
                         <tr>
                             <td style="padding:10px 5px;border-top:2px solid black;text-align:center;" colspan="6">

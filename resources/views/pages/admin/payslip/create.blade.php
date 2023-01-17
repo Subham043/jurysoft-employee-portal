@@ -114,6 +114,39 @@
                         </div>
                     </div>
                     
+                    <div class="card" id="arrears_div" style="display: none">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Arrears Info</h4>
+                        </div><!-- end card header -->
+                        <div class="card-body">
+                            <div class="live-preview">
+                                <div class="row gy-4">
+                                    <div class="col-xxl-6 col-md-6">
+                                        <div>
+                                            <label for="working_days_of_month_arrears" class="form-label">Working Days Of Month</label>
+                                            <input type="text" class="form-control" name="working_days_of_month_arrears" id="working_days_of_month_arrears" disabled readonly value="{{old('working_days_of_month_arrears')}}">
+                                            @error('working_days_of_month_arrears') 
+                                                <div class="invalid-message">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-xxl-6 col-md-6">
+                                        <div>
+                                            <label for="unpaid_leave_taken_arrears" class="form-label">Unpaid Leave Taken</label>
+                                            <input type="text" class="form-control" name="unpaid_leave_taken_arrears" id="unpaid_leave_taken_arrears" value="{{old('unpaid_leave_taken_arrears')}}">
+                                            @error('unpaid_leave_taken_arrears') 
+                                                <div class="invalid-message">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <!--end row-->
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Employee CTC Info</h4>
@@ -406,6 +439,9 @@ const choicesUser = new Choices('#user_id', {
 
 <script type="text/javascript">
 
+let allow_arrears = false;
+let allow_payslip_creation = true;
+
 // initialize the validation library
 const validation = new JustValidate('#countryForm', {
       errorFieldCssClass: 'is-invalid',
@@ -493,6 +529,34 @@ validation
         errorMessage: 'Please select an employee',
     },
   ])
+  .addField('#working_days_of_month_arrears', [
+    {
+        validator: (value, fields) => {
+        if(!allow_arrears){
+            return true;
+        }
+        if (!value) {
+            return false;
+        }
+        return true;
+        },
+        errorMessage: 'Working days of month is required',
+    },
+  ])
+  .addField('#unpaid_leave_taken_arrears', [
+    {
+        validator: (value, fields) => {
+        if(!allow_arrears){
+            return true;
+        }
+        if (!value) {
+            return false;
+        }
+        return true;
+        },
+        errorMessage: 'Unpaid leave taken is required',
+    },
+  ])
   .onSuccess((event) => {
     event.target.submit();
   });
@@ -568,7 +632,7 @@ validation
     ctc_change()
   }
 
-@if(old('total_days_of_month') || old('worked_days') || old('working_days_of_month') || old('unpaid_leave_taken') || old('paid_leave_taken'))
+@if(old('total_days_of_month') || old('worked_days') || old('working_days_of_month') || old('unpaid_leave_taken') || old('paid_leave_taken') || old('working_days_of_month_arrears') || old('unpaid_leave_taken_arrears'))
   user_id_change()
 @endif
 
@@ -580,7 +644,15 @@ async function user_id_change(){
         formData.append('month_year',document.getElementById('month_year').value)
         const response = await axios.post('{{route('subadmin_json')}}', formData)
         document.getElementById('main_gross_salary').value = response.data.employee_main_gross_salary
-        main_gross_salary = response.data.employee_main_gross_salary
+        main_gross_salary = response.data.employee_main_gross_salary;
+        allow_payslip_creation = response.data.allow_payslip_creation;
+        if(response.data.allow_arrears){
+            allow_arrears = response.data.allow_arrears;
+            document.getElementById('arrears_div').style.display = 'block'
+            document.getElementById('working_days_of_month_arrears').value = response.data.days_in_arrears_month
+        }else{
+            document.getElementById('arrears_div').style.display = 'none'
+        }
         main_change()
     }catch (error){
         if(error?.response?.data?.form_error?.user_id){

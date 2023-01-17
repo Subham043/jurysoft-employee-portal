@@ -117,6 +117,34 @@
                                     </div>
                                 </div>
                             </div>
+                            @if($country->allow_arrears==1)
+                            <div class="pt-3 pb-3 mt-4">
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-sm-12 text-center">
+                                        <hr/>
+                                        <h3>Arrears Info</h3>
+                                        <hr/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-1 pb-1">
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">WORKING DAYS OF MONTH :</p>
+                                            <h5 class="fs-15 mb-0">{{$country->working_days_of_month_arrears}}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">UNPAID LEAVE TAKEN :</p>
+                                            <h5 class="fs-15 mb-0">{{$country->unpaid_leave_taken_arrears}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                             <div class="pt-3 pb-3 mt-4">
                                 <div class="row">
 

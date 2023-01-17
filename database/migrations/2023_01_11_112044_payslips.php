@@ -23,6 +23,9 @@ return new class extends Migration
             $table->string('unpaid_leave_taken');
             $table->string('worked_days');
             $table->bigInteger('user_id');
+            $table->integer('working_days_of_month_arrears')->default(0);
+            $table->integer('unpaid_leave_taken_arrears')->default(0);
+            $table->integer('allow_arrears')->default(0);
             $table->timestamps();
         });
     }

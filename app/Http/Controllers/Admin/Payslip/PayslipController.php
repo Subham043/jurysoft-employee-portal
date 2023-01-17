@@ -71,6 +71,34 @@ class PayslipController extends Controller
             'main_gross_salary.required' => 'Please enter the main gross salary !',
             'main_gross_salary.regex' => 'Please enter the valid main gross salary !',
         ];
+
+        $allow_arrears = false;
+        $user = User::findOrFail($req->user_id);
+        if($user->EmployeeJobDetail){
+            $date_of_join = $user->EmployeeJobDetail->date_of_join;
+            if(Carbon::create($date_of_join)->format('d')>=16){
+                $d1 = Carbon::create($req->month_year)->firstOfMonth()->format('m-Y');
+                $d2 = Carbon::create($date_of_join)->format('m-Y');
+                $d3 = Carbon::create($date_of_join)->addMonth()->format('m-Y');
+                $d4 = Carbon::create($date_of_join)->addMonth()->addMonth()->format('m-Y');
+                if($d1==$d2 || $d1==$d3){
+                    return redirect()->intended(route('payslip_create'))->with('error_status', 'You cannot create payslip for '.Carbon::create($req->month_year)->firstOfMonth()->format('M, Y').', as the employee had joined the company on '.Carbon::create($date_of_join)->format('d M, Y'));
+                }
+                if($d1==$d4){
+                    $allow_arrears = true;
+                }
+            }
+        }
+
+        if($allow_arrears){
+            $rules['working_days_of_month_arrears'] = ['required','regex:/^[0-9]*$/'];
+            $rules['unpaid_leave_taken_arrears'] = ['required','regex:/^[0-9]*$/'];
+            $messages['working_days_of_month_arrears.required'] = 'Please enter the working days of month !';
+            $messages['working_days_of_month_arrears.regex'] = 'Please enter the valid working days of month !';
+            $messages['unpaid_leave_taken_arrears.required'] = 'Please enter the unpaid leave taken !';
+            $messages['unpaid_leave_taken_arrears.regex'] = 'Please enter the valid unpaid leave taken !';
+        }
+
         $validator = $req->validate($rules,$messages);
 
         $user = new Payslip;
@@ -82,6 +110,15 @@ class PayslipController extends Controller
         $user->paid_leave_taken = $req->paid_leave_taken;
         $user->unpaid_leave_taken = $req->unpaid_leave_taken;
         $user->worked_days = $req->worked_days;
+        if($allow_arrears){
+            $user->allow_arrears = 1;
+            $user->working_days_of_month_arrears = $req->working_days_of_month_arrears;
+            $user->unpaid_leave_taken_arrears = $req->unpaid_leave_taken_arrears;
+        }else{
+            $user->allow_arrears = 0;
+            $user->working_days_of_month_arrears = 0;
+            $user->unpaid_leave_taken_arrears = 0;
+        }
         $result = $user->save();
 
         if($result){
@@ -132,6 +169,34 @@ class PayslipController extends Controller
             'main_gross_salary.required' => 'Please enter the main gross salary !',
             'main_gross_salary.regex' => 'Please enter the valid main gross salary !',
         ];
+
+        $allow_arrears = false;
+        $user = User::findOrFail($req->user_id);
+        if($user->EmployeeJobDetail){
+            $date_of_join = $user->EmployeeJobDetail->date_of_join;
+            if(Carbon::create($date_of_join)->format('d')>=16){
+                $d1 = Carbon::create($req->month_year)->firstOfMonth()->format('m-Y');
+                $d2 = Carbon::create($date_of_join)->format('m-Y');
+                $d3 = Carbon::create($date_of_join)->addMonth()->format('m-Y');
+                $d4 = Carbon::create($date_of_join)->addMonth()->addMonth()->format('m-Y');
+                if($d1==$d2 || $d1==$d3){
+                    return redirect()->intended(route('payslip_create'))->with('error_status', 'You cannot create payslip for '.Carbon::create($req->month_year)->firstOfMonth()->format('M, Y').', as the employee had joined the company on '.Carbon::create($date_of_join)->format('d M, Y'));
+                }
+                if($d1==$d4){
+                    $allow_arrears = true;
+                }
+            }
+        }
+
+        if($allow_arrears){
+            $rules['working_days_of_month_arrears'] = ['required','regex:/^[0-9]*$/'];
+            $rules['unpaid_leave_taken_arrears'] = ['required','regex:/^[0-9]*$/'];
+            $messages['working_days_of_month_arrears.required'] = 'Please enter the working days of month !';
+            $messages['working_days_of_month_arrears.regex'] = 'Please enter the valid working days of month !';
+            $messages['unpaid_leave_taken_arrears.required'] = 'Please enter the unpaid leave taken !';
+            $messages['unpaid_leave_taken_arrears.regex'] = 'Please enter the valid unpaid leave taken !';
+        }
+
         $validator = $req->validate($rules,$messages);
 
         $user->month_year = $req->month_year;
@@ -142,6 +207,15 @@ class PayslipController extends Controller
         $user->paid_leave_taken = $req->paid_leave_taken;
         $user->unpaid_leave_taken = $req->unpaid_leave_taken;
         $user->worked_days = $req->worked_days;
+        if($allow_arrears){
+            $user->allow_arrears = 1;
+            $user->working_days_of_month_arrears = $req->working_days_of_month_arrears;
+            $user->unpaid_leave_taken_arrears = $req->unpaid_leave_taken_arrears;
+        }else{
+            $user->allow_arrears = 0;
+            $user->working_days_of_month_arrears = 0;
+            $user->unpaid_leave_taken_arrears = 0;
+        }
         $result = $user->save();
 
         if($result){
