@@ -338,7 +338,7 @@
                                         <tr>
                                             <td style="width: 80%;text-align:center;">
                                             <span style="font-weight: bold;font-size:16px">
-                                                (Rupees Fifteen Thousand Seven Hundred Fifteen Only)
+                                                ({{$payslip->amount_word}} Only)
                                             </span>
                                             <br/><br/>
                                             <span style="font-size: 13px;">
