@@ -196,3 +196,5 @@ Route::prefix('/')->middleware(['auth', 'blocked'])->group(function () {
     });
 
 });
+
+Route::get('/demo', [DashboardController::class, 'demo', 'as' => 'admin.demo'])->name('demo');
