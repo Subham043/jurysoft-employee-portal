@@ -17,7 +17,7 @@ class DivisionExport implements FromCollection,WithHeadings,WithMapping
         return[
             'Id',
             'Name',
-            $data->CreatedBy ? $data->CreatedBy->full_name : '',
+            'Created_by',
             'Created_at',
             'Updated_at' 
         ];
@@ -27,7 +27,7 @@ class DivisionExport implements FromCollection,WithHeadings,WithMapping
          return[
              $data->id,
              $data->name,
-             $data->CreatedBy->full_name,
+             $data->CreatedBy ? $data->CreatedBy->full_name : '',
              $data->created_at,
              $data->updated_at,
          ];
