@@ -84,7 +84,7 @@
                             <td style="text-align:center;font-weight:bold;width:25%;padding:8px 0;">Pay Slip for the Month of</td>
                             <td style="text-align:center;width:25%;padding:8px 0;">{{$payslip->month_year_formatted}}</td>
                             <td style="text-align:center;font-weight:bold;width:25%;padding:8px 0;">EMP No</td>
-                            <td style="text-align:center;width:25%;padding:8px 0;">{{$payslip->user->jurysoft_id}}</td>
+                            <td style="text-align:center;width:25%;padding:8px 0;">{{$payslip->user ? $payslip->user->jurysoft_id : ''}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -98,7 +98,7 @@
                                     <tbody style="width:100%">
                                         <tr>
                                             <td style="width:40%;font-weight:bold;padding:8px 0;">Name</td>
-                                            <td style="width:60%;padding:8px 0;">{{$payslip->user->full_name}}</td>
+                                            <td style="width:60%;padding:8px 0;">{{$payslip->user ? $payslip->user->full_name : ''}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -108,7 +108,7 @@
                                     <tbody style="width:100%">
                                         <tr>
                                             <td style="width:40%;font-weight:bold;padding:8px 0;">Designation</td>
-                                            <td style="width:60%;padding:8px 0;">{{$payslip->user->EmployeeJobDetail->Designation->name}}</td>
+                                            <td style="width:60%;padding:8px 0;">{{$payslip->user && $payslip->user->EmployeeJobDetail->Designation ? $payslip->user->EmployeeJobDetail->Designation->name : ''}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -118,7 +118,7 @@
                                     <tbody style="width:100%">
                                         <tr>
                                             <td style="width:40%;font-weight:bold;padding:8px 0;">Department</td>
-                                            <td style="width:60%;padding:8px 0;">{{$payslip->user->EmployeeJobDetail->Department->name}}</td>
+                                            <td style="width:60%;padding:8px 0;">{{$payslip->user && $payslip->user->EmployeeJobDetail->Department ? $payslip->user->EmployeeJobDetail->Department->name : ''}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -130,7 +130,7 @@
                                     <tbody style="width:100%">
                                         <tr>
                                             <td style="width:40%;font-weight:bold;padding:8px 0;">Bank</td>
-                                            <td style="width:60%;padding:8px 0;">{{$payslip->user->EmployeeBankDetail->bank_name}}</td>
+                                            <td style="width:60%;padding:8px 0;">{{$payslip->user && $payslip->user->EmployeeBankDetail ? $payslip->user->EmployeeBankDetail->bank_name : ''}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -140,7 +140,7 @@
                                     <tbody style="width:100%">
                                         <tr>
                                             <td style="width:40%;font-weight:bold;padding:8px 0;">Bank A/c No</td>
-                                            <td style="width:60%;padding:8px 0;">{{$payslip->user->EmployeeBankDetail->account_no}}</td>
+                                            <td style="width:60%;padding:8px 0;">{{$payslip->user && $payslip->user->EmployeeBankDetail ? $payslip->user->EmployeeBankDetail->account_no : ''}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -150,7 +150,7 @@
                                     <tbody style="width:100%">
                                         <tr>
                                             <td style="width:40%;font-weight:bold;padding:8px 0;">PAN No</td>
-                                            <td style="width:60%;padding:8px 0;">{{$payslip->user->EmployeePersonalDetail->pan}}</td>
+                                            <td style="width:60%;padding:8px 0;">{{$payslip->user && $payslip->user->EmployeePersonalDetail ? $payslip->user->EmployeePersonalDetail->pan : ''}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

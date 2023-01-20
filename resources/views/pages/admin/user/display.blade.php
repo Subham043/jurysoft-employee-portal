@@ -33,7 +33,7 @@
                         <div class="row g-4 mb-3">
                             <div class="col-sm-auto">
                                 <div>
-                                    <a href="{{url()->previous()}}" type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-arrow-go-back-line align-bottom me-1"></i> Go Back</a>
+                                    <a href="{{route('subadmin_view')}}" type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-arrow-go-back-line align-bottom me-1"></i> Go Back</a>
                                 </div>
                             </div>
                             @if(Auth::user() &&  Auth::user()->userType != 2)
@@ -231,6 +231,28 @@
                                         <div>
                                             <p class="mb-2 text-uppercase fw-medium fs-13">Designation :</p>
                                             <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->Designation ? $country->EmployeeJobDetail->Designation->name : ''}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-3 pb-1 mt-4">
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">Date Of Join :</p>
+                                            <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->date_of_join}}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">Training End Date :</p>
+                                            <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->training_end_date}}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div>
+                                            <p class="mb-2 text-uppercase fw-medium fs-13">Date Of Regular :</p>
+                                            <h5 class="fs-15 mb-0">{{$country->EmployeeJobDetail->date_of_regular}}</h5>
                                         </div>
                                     </div>
                                 </div>

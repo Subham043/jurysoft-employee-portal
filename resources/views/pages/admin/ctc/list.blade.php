@@ -37,6 +37,7 @@
                             <div class="row g-4 mb-3">
                                 <div class="col-sm-auto">
                                     <div>
+                                        <a href="{{route('subadmin_view')}}" type="button" class="btn btn-dark add-btn" id="create-btn"><i class="ri-arrow-go-back-line align-bottom me-1"></i> Go Back</a>
                                         <a href={{route('ctc_create', $user->id)}} type="button" class="btn btn-success add-btn" style="background:green;border-color:green;" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
                                         <a href={{route('ctc_excel', $user->id)}} type="button" class="btn btn-info add-btn" id="create-btn"><i class="ri-file-excel-fill align-bottom me-1"></i> Excel</a>
                                     </div>
