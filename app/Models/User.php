@@ -59,6 +59,10 @@ class User extends Authenticatable
     //     );
     // }
 
+    public function getPassword(){
+        return $this->password;
+    }
+
     public function setJurysoftId(){
         if(strlen(strval($this->id))>=3){
             return 'JS-'.$this->id;
