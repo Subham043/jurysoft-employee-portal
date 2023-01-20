@@ -141,7 +141,7 @@ class PayslipController extends Controller
     }
 
     public function update(Request $req, $id) {
-        $user = Payslip::with(['User'])->findOrFail($id);
+        $payslip = Payslip::with(['User'])->findOrFail($id);
         $rules = [
             'user_id' => ['required','regex:/^[0-9]*$/'],
             'month_year' => ['required','regex:/^[0-9\-]*$/'],
@@ -199,29 +199,29 @@ class PayslipController extends Controller
 
         $validator = $req->validate($rules,$messages);
 
-        $user->month_year = $req->month_year;
-        $user->main_gross_salary = $req->main_gross_salary;
-        $user->user_id = $req->user_id;
-        $user->total_days_of_month = $req->total_days_of_month;
-        $user->working_days_of_month = $req->working_days_of_month;
-        $user->paid_leave_taken = $req->paid_leave_taken;
-        $user->unpaid_leave_taken = $req->unpaid_leave_taken;
-        $user->worked_days = $req->worked_days;
+        $payslip->month_year = $req->month_year;
+        $payslip->main_gross_salary = $req->main_gross_salary;
+        $payslip->user_id = $req->user_id;
+        $payslip->total_days_of_month = $req->total_days_of_month;
+        $payslip->working_days_of_month = $req->working_days_of_month;
+        $payslip->paid_leave_taken = $req->paid_leave_taken;
+        $payslip->unpaid_leave_taken = $req->unpaid_leave_taken;
+        $payslip->worked_days = $req->worked_days;
         if($allow_arrears){
-            $user->allow_arrears = 1;
-            $user->working_days_of_month_arrears = $req->working_days_of_month_arrears;
-            $user->unpaid_leave_taken_arrears = $req->unpaid_leave_taken_arrears;
+            $payslip->allow_arrears = 1;
+            $payslip->working_days_of_month_arrears = $req->working_days_of_month_arrears;
+            $payslip->unpaid_leave_taken_arrears = $req->unpaid_leave_taken_arrears;
         }else{
-            $user->allow_arrears = 0;
-            $user->working_days_of_month_arrears = 0;
-            $user->unpaid_leave_taken_arrears = 0;
+            $payslip->allow_arrears = 0;
+            $payslip->working_days_of_month_arrears = 0;
+            $payslip->unpaid_leave_taken_arrears = 0;
         }
-        $result = $user->save();
+        $result = $payslip->save();
 
         if($result){
-            return redirect()->intended(route('payslip_edit',$user->id))->with('success_status', 'Data Updated successfully.');
+            return redirect()->intended(route('payslip_edit',$payslip->id))->with('success_status', 'Data Updated successfully.');
         }else{
-            return redirect()->intended(route('payslip_edit',$user->id))->with('error_status', 'Something went wrong. Please try again');
+            return redirect()->intended(route('payslip_edit',$payslip->id))->with('error_status', 'Something went wrong. Please try again');
         }
     }
 
